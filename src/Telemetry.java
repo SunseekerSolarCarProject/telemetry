@@ -19,14 +19,17 @@ import java.io.IOException;
 
 class Telemetry implements Runnable {
 
-    DataSourceInterface dataSource;
     DataTypeInterface collection;
 
-    protected static AbstractDataTypeCollection dataTypes;
+    protected DataTypeCollectionInterface dataTypes;
 
     protected MainController mainController;
-    protected static DataController dataController;
-    protected static ArchiveController archiveController;
+    protected DataController dataController;
+    protected ArchiveController archiveController;
+    
+    protected AbstractGraphPanel graphPanel;
+    protected AbstractDataSelectPanel dataSelectPanel;
+    protected AbstractLiveDataPanel liveDataPanel;
 
 	public static void main (String[] args) throws IOException {
         EventQueue.invokeLater(new Telemetry());
@@ -43,8 +46,6 @@ class Telemetry implements Runnable {
         registerDataType("voltage", "volts");
         registerDataType("current", "amps");
         registerDataType("array", "watts");
-
-        dataSource = new PseudoRandomDataSource(dataTypes);
     }
 
     public void run () {
@@ -67,43 +68,39 @@ class Telemetry implements Runnable {
         /*
          * The graph to display the data
          */
-        AbstractGraphPanel graph = new GraphPanel();
-        mainController.useGraphPanel(graph);
+        graphPanel = new GraphPanel();
+        mainController.useGraphPanel(graphPanel);
 
         /*
          * Options regarding which data to display
          */
-        AbstractDataSelectPanel dataSelect = new DataSelectPanel();
-        mainController.useDataSelectPanel(dataSelect);
+        dataSelectPanel = new DataSelectPanel();
+        mainController.useDataSelectPanel(dataSelectPanel);
 
         /*
          * Display for the most recent values of the data being displayed
          */
-        AbstractLiveDataPanel liveData = new LiveDataPanel(dataTypes);
-        mainController.useLiveDataPanel(liveData);
-
-        /*
-         * Add the line panels to the graph
-         */
-        mainController.useLinePanels(getLinePanels());
+        liveDataPanel = new LiveDataPanel();
+        mainController.useLiveDataPanel(liveDataPanel);
 
         /*
          * Create the data controller and get the source
          */
-        dataController = new DataController(dataTypes, mainFrame);
+        dataController = new DataController(mainFrame);
 
-        getDataSource();
+        makeAwareOfTypes();
 
         /*
         * create controller to store data
         */
-        archiveController = new ArchiveController(dataTypes, mainFrame);
+        archiveController = new ArchiveController();
 
         /*
          * Start the application
          */
         mainController.start();
     }
+
 
     protected void registerDataType (String type, String units) {
         collection = new DataType(type, units);
@@ -118,42 +115,13 @@ class Telemetry implements Runnable {
         for (DataTypeInterface type : dataTypes)
             panels[i++] = new LinePanel(type);
 
-            collection.setProvided(
-                dataSource.provides(collection.getType())
-            );
-
         return panels;
     }
 
-    protected static void getDataSource () {
-        DataSourceInterface current;
+    protected void makeAwareOfTypes () {
+        DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
 
-        if ((current = dataController.getDataSource()) != null) {
-            current.stop();
-        }
-
-        dataController.promptForDataSource();
-
-        checkDataTypes(dataController.getDataSource());
+        liveDataPanel.setTypes(types);
     }
 
-    protected static void checkDataTypes (DataSourceInterface dataSource) {
-        if (dataSource != null) {
-            for (DataTypeInterface type : dataTypes) {
-                type.setProvided(
-                    dataSource.provides(type.getType())
-                );
-
-                type.setEnabled(true);
-            }
-        }
-    }
-
-    public static DataController getDataController () {
-        return dataController;
-    }
-
-    public static ArchiveController getArchiveController () {
-        return archiveController;
-    }
 }

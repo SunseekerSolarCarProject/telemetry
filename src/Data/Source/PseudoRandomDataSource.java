@@ -19,15 +19,9 @@ class PseudoRandomDataSource extends AbstractDataSource implements DataSourceInt
 
     protected boolean scheduled;
 
-    public PseudoRandomDataSource (AbstractDataTypeCollection dataTypes) {
-        super(dataTypes);
-
+    public PseudoRandomDataSource () {
         scheduler = new Timer();
         randGen   = new Random();
-
-        providedTypes = new String[] {
-            "speed", "voltage", "current", "array"
-        };
     }
 
     public String getName () {
@@ -35,34 +29,11 @@ class PseudoRandomDataSource extends AbstractDataSource implements DataSourceInt
     }
 
     public void run () {
-        List<Double> data;
-        double val;
-
-        for (String type : providedTypes) {
-            if (!types.containsKey(type))
-                continue;
-
-            data = types.get(type).getData();
-
-            val = 500 * ((randGen.nextDouble() * 2) - 1);
-
-            data.clear();
-            types.get(type).putValue(val);
-        }
+        for (String type : typeNames)
+            putValue(type, 500 * ((randGen.nextDouble() * 2) - 1));
 
         if (!scheduled)
             scheduleTask();
-    }
-
-    public void stop () {
-        scheduler.cancel();
-        scheduler.purge();
-
-        scheduled = false;
-    }
-
-    public void pause () {
-        stop();
     }
 
     protected void scheduleTask () {

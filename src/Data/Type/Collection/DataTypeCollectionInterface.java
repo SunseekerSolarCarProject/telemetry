@@ -7,8 +7,8 @@
 
 package sunseeker.telemetry;
 
-import java.util.ArrayList;
+import java.util.List;
 
-abstract class AbstractDataTypeCollection extends ArrayList<DataTypeInterface> {
+interface DataTypeCollectionInterface extends List<DataTypeInterface> {
 
 }

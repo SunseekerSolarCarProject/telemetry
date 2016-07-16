@@ -19,14 +19,10 @@ import java.awt.Container;
 class LiveDataPanel extends AbstractLiveDataPanel {
     final public static int ROW_HEIGHT = 30;
 
-    protected AbstractDataTypeCollection types;
-
     protected JTable table;
     protected DefaultTableModel model;
 
-    public LiveDataPanel (AbstractDataTypeCollection dataTypes) {
-        types = dataTypes;
-
+    public LiveDataPanel () {
         TitledBorder border = BorderFactory.createTitledBorder(" Live Data ");
 
         setBorder(border);
@@ -90,10 +86,13 @@ class LiveDataPanel extends AbstractLiveDataPanel {
     }
 
     protected void addRows () {
+        if (types == null)
+            return;
+
         for (DataTypeInterface type : types) {
             if (type.isEnabled()) {
                 model.addRow(new Object[] {
-                    type.getType() + " (" + type.getUnits() + ")",
+                    type.getName() + " (" + type.getUnits() + ")",
                     (float) type.getMinimumValue(),
                     (float) type.getCurrentValue(),
                     (float) type.getMaximumValue()

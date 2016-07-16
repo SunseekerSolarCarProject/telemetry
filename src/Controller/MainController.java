@@ -27,10 +27,12 @@ class MainController implements Runnable, ActionListener{
 
     protected boolean paused = false;
 
-    protected Timer lineUpdater;
+    protected Timer dataUpdater;
 
     public MainController (AbstractMainFrame frame) {
         mainFrame = frame;
+
+        createLineUpdater();
     }
 
     public void useMenu (AbstractMenu menu) {
@@ -49,12 +51,6 @@ class MainController implements Runnable, ActionListener{
         mainFrame.useLiveDataPanel(liveDataPanel = panel);
     }
 
-    public void useLinePanels(AbstractLinePanel[] panels) {
-        mainFrame.useLinePanels(panels);
-
-        createLineUpdater();
-    }
-
     public void start () {
         mainFrame.showFrame();
 
@@ -62,7 +58,7 @@ class MainController implements Runnable, ActionListener{
     }
 
     public void run () {
-        lineUpdater.start();
+        dataUpdater.start();
     }
 
     public void actionPerformed (ActionEvent evt) {
@@ -71,7 +67,7 @@ class MainController implements Runnable, ActionListener{
     }
 
     protected void createLineUpdater () {
-        lineUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
+        dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
     }
 
 }

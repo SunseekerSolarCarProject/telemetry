@@ -13,11 +13,12 @@ import java.io.IOException;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 
-class Helper {
-    protected HashMap<String, CommPortIdentifier> ports;
+class SerialHelper {
+    protected static HashMap<String, CommPortIdentifier> ports;
 
-    public Helper () {
-        ports = new HashMap<String, CommPortIdentifier>();
+    public SerialHelper () {
+        if (ports == null)
+            ports = new HashMap<String, CommPortIdentifier>();
     }
 
     public HashMap getPorts () {
@@ -40,11 +41,11 @@ class Helper {
         return getPorts().keySet().toArray();
     }
 
-    public CommPortIdentifier getIdentifier (String port) throws IOException {
+    public CommPortIdentifier getIdentifier (String port) {
         try {
             return CommPortIdentifier.getPortIdentifier(port);
         } catch (NoSuchPortException e) {
-            throw new IOException("No such port: " + port);
+            return null;
         }
     }
 }

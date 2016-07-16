@@ -10,5 +10,9 @@ package sunseeker.telemetry;
 import javax.swing.JPanel;
 
 abstract class AbstractDataSelectPanel extends AbstractPanel {
+    protected DataTypeCollectionInterface types;
     
+    public void setTypes (DataTypeCollectionInterface types) {
+        this.types = types;
+    }
 }

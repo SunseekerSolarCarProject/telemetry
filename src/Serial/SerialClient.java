@@ -10,17 +10,20 @@ package sunseeker.telemetry;
 import gnu.io.CommPortIdentifier;
 import gnu.io.CommPort;
 import gnu.io.SerialPort;
+import gnu.io.PortInUseException;
+import gnu.io.UnsupportedCommOperationException;
+import java.util.TooManyListenersException;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.IOException;
 
-class Client {
+class SerialClient {
     protected ConnectionInterface connection;
     protected ListenerInterface listener;
 
     protected CommPort connected;
 
-    public Client (ConnectionInterface conn, ListenerInterface list) {
+    public SerialClient (ConnectionInterface conn, ListenerInterface list) {
         connection = conn;
         listener = list;
     }
@@ -39,8 +42,14 @@ class Client {
             connection.set(getWriter());
 
             return true;
+        } catch (PortInUseException e) {
+            System.out.println("Port in use...");
+        } catch (UnsupportedCommOperationException e) {
+            System.out.println("Cannot connect: " + e.getMessage());
+        } catch (TooManyListenersException e) {
+            System.out.println("Could not connect: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Something went wrong: " + e.getMessage());
         }
 
         return false;

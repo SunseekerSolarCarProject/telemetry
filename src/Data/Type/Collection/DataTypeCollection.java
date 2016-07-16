@@ -9,6 +9,6 @@ package sunseeker.telemetry;
 
 import java.util.ArrayList;
 
-class DataTypeCollection extends AbstractDataTypeCollection {
+class DataTypeCollection extends ArrayList<DataTypeInterface> implements DataTypeCollectionInterface {
 
 }

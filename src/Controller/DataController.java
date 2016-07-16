@@ -14,7 +14,7 @@ import java.lang.Thread;
 import javax.swing.JOptionPane;
 
 class DataController {
-    protected AbstractDataTypeCollection dataTypes;
+    protected JFrame parent;
 
     protected HashMap<String, DataSourceInterface> dataSources;
 
@@ -22,10 +22,7 @@ class DataController {
 
     protected Thread dataThread;
 
-    protected JFrame parent;
-
-    public DataController (AbstractDataTypeCollection collections, JFrame frame) {
-        dataTypes = collections;
+    public DataController (JFrame frame) {
         parent = frame;
 
         dataSources = new HashMap<String, DataSourceInterface>();
@@ -33,8 +30,13 @@ class DataController {
         /*
          * Register the known data source types
          */
-        registerDataSource(new PseudoRandomDataSource(dataTypes));
-        registerDataSource(new TenCarDataSource(dataTypes, parent));
+        registerDataSource(new PseudoRandomDataSource());
+        registerDataSource(new TenCarDataSource());
+
+        /*
+         * Force the user to pick a data source
+         */
+        promptForDataSource();
     }
 
     public void start () {
@@ -50,8 +52,10 @@ class DataController {
     }
 
     public void stop () {
+        if (dataThread == null)
+            return;
+
         try {
-            dataSource.stop();
             dataThread.join();
         } catch (InterruptedException e) {
             System.out.println("Could not stop the data source thread...");
@@ -63,7 +67,15 @@ class DataController {
         start();
     }
 
-    public void promptForDataSource () {
+    public DataSourceInterface getDataSource () {
+        return dataSource;
+    }
+
+    protected void registerDataSource (DataSourceInterface source) {
+        dataSources.put(source.getName(), source);
+    }
+
+    protected void promptForDataSource () {
         String source = (String) JOptionPane.showInputDialog(
             parent,
             "Choose a source for the data:",
@@ -75,14 +87,25 @@ class DataController {
         );
 
         dataSource = dataSources.get(source);
+
+        if (dataSource instanceof AbstractSerialDataSource)
+            promptForSerialPort();
     }
 
-    public DataSourceInterface getDataSource () {
-        return dataSource;
-    }
+    protected void promptForSerialPort () {
+        SerialHelper helper = new SerialHelper();
 
-    protected void registerDataSource (DataSourceInterface source) {
-        dataSources.put(source.getName(), source);
+        String port = (String) JOptionPane.showInputDialog(
+            parent,
+            "Choose which serial port you would like to connect to:",
+            "Choose a Serial Port",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            helper.getPortNames(),
+            null
+        );
+
+        ((AbstractSerialDataSource) dataSource).setPort(helper.getIdentifier(port));
     }
 
 }
