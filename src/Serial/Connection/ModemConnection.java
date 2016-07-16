@@ -19,6 +19,7 @@ import java.lang.Thread;
 class ModemConnection implements ConnectionInterface {
     final protected static int TIMEOUT   = 3000;
     final protected static int BAUD_RATE = 9600;
+    final protected static int CHANNEL   = 786;
 
     public CommPort getConnection(CommPortIdentifier port) throws PortInUseException, UnsupportedCommOperationException {
         CommPort comm;
@@ -48,8 +49,9 @@ class ModemConnection implements ConnectionInterface {
         } catch (Exception e) { }
 
         out.write("ATAM\n\r");
-        out.write("ATMY 786\n\r");
-        out.write("ATDT 786\n\r");
+        out.write("ATMY " + CHANNEL + "\n\r");
+        out.write("ATDT " + CHANNEL + "\n\r");
+        out.write("ATCN\n\r");
         out.flush();
     }
 

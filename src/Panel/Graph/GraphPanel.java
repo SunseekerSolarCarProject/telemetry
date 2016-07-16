@@ -28,6 +28,12 @@ class GraphPanel extends AbstractGraphPanel {
          */
         drawAxes();
     }
+    
+    public void setTypes (DataTypeCollectionInterface types) {
+        super.setTypes(types);
+
+        
+    }
 
     protected void drawAxes () {
         artist.setStroke(new BasicStroke(

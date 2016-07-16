@@ -30,6 +30,8 @@ abstract class AbstractGraphPanel extends AbstractPanel {
     protected static int xAxisInset;
     protected static double ratio;
 
+    protected DataTypeCollectionInterface types;
+
     public AbstractGraphPanel () {
         setBackground(Color.WHITE);
 
@@ -54,5 +56,9 @@ abstract class AbstractGraphPanel extends AbstractPanel {
             pos = Y_AXIS_MIN * (value / Y_AXIS_MIN);
 
         return xAxisInset + (int) (pos * ratio);
+    }
+    
+    public void setTypes (DataTypeCollectionInterface types) {
+        this.types = types;
     }
 }

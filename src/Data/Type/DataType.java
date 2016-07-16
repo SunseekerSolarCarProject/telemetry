@@ -23,23 +23,25 @@ class DataType implements DataTypeInterface {
         Color.CYAN
     };
 
-    protected String type;
+    protected String name;
     protected String units;
 
     protected static int colorCount = 0;
     protected Color color;
 
-    protected boolean enabled  = false;
-    protected boolean provided = false;
+    protected boolean enabled = true;
 
+    /*
+     * Over life of object
+     */
     protected double min = 0;
     protected double cur = 0;
     protected double max = 0;
 
     protected List<Double> data;
 
-    public DataType (String type, String units) {
-        this.type  = type;
+    public DataType (String name, String units) {
+        this.name  = name;
         this.units = units;
 
         /*
@@ -54,8 +56,8 @@ class DataType implements DataTypeInterface {
         data = Collections.synchronizedList(new ArrayList<Double>());
     }
 
-    public String getType () {
-        return type;
+    public String getName () {
+        return name;
     }
 
     public String getUnits () {
@@ -67,12 +69,6 @@ class DataType implements DataTypeInterface {
     }
 
     public void setEnabled (boolean enabled) {
-        /*
-         * We cannot enable this type it is not provided
-         */
-        if (enabled && !provided)
-            return;
-
         this.enabled = enabled;
     }
 
@@ -80,21 +76,10 @@ class DataType implements DataTypeInterface {
         return enabled;
     }
 
-    public void setProvided (boolean provided) {
-        this.provided = provided;
-
-        /*
-         * If this value is not provided, we cannot show it
-         */
-        if (!provided)
-            setEnabled(false);
-    }
-
-    public boolean isProvided () {
-        return provided;
-    }
-
     public void putValue (double value) {
+        if (data.size() >= MAX_DATA_POINTS)
+            data.remove(0);
+
         data.add(value);
 
         cur = value;

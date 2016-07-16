@@ -7,28 +7,32 @@
 
 package sunseeker.telemetry;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 abstract class AbstractDataSource implements DataSourceInterface {
-    protected String[] providedTypes;
+    protected DataTypeCollectionInterface types;
 
-    protected HashMap<String, DataTypeInterface> types;
+    protected List<String> typeNames;
 
-    public AbstractDataSource (AbstractDataTypeCollection dataTypes) {
-        types = new HashMap<String, DataTypeInterface>();
-
-        for (DataTypeInterface type : dataTypes)
-            types.put(type.getType(), type);
+    public AbstractDataSource () {
+        types     = new DataTypeCollection();
+        typeNames = new ArrayList<String>();
     }
 
-    public String[] getTypes () {
-        return providedTypes;
+    public DataTypeCollectionInterface getTypes () {
+        return types;
     }
 
-    public boolean provides (String type) {
-        Arrays.sort(providedTypes);
+    protected void registerDataType (String name, String unit) {
+        types.add(new DataType(name, unit));
+        typeNames.add(name);
+    }
 
-        return Arrays.binarySearch(providedTypes, type) >= 0;
+    protected void putValue (String type, double value) {
+        if (!typeNames.contains(type))
+            return;
+
+        types.get(typeNames.indexOf(type)).putValue(value);
     }
 }

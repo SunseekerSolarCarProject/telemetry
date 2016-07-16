@@ -7,57 +7,44 @@
 
 package sunseeker.telemetry;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import java.io.IOException;
+import java.nio.ByteBuffer;
+import gnu.io.CommPortIdentifier;
 
 abstract class AbstractSerialDataSource extends AbstractDataSource {
-    protected Helper helper;
-    protected Client client;
+    protected CommPortIdentifier port;
 
-    protected JFrame parent;
+    protected SerialClient client;
 
-    public AbstractSerialDataSource (AbstractDataTypeCollection types, JFrame frame) {
-        super(types);
-
-        parent = frame;
+    public AbstractSerialDataSource () {
         client = getClient();
-        helper = new Helper();
     }
 
-    public void run () {
-        promptForSerialPort(parent);
+    public void setPort (CommPortIdentifier port) {
+        this.port = port;
     }
 
-    protected boolean promptForSerialPort (JFrame parent) {
-        String port = (String) JOptionPane.showInputDialog(
-            parent,
-            "Choose which serial port you would like to connect to:",
-            "Choose a Serial Port",
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            helper.getPortNames(),
-            null
-        );
+    public void run () throws RuntimeException {
+        if (port == null)
+            throw new RuntimeException("A port has not been provided!");
 
-        try {
-            client.connect(helper.getIdentifier(port));
-
-            return true;
-        } catch (IOException e) { }
-
-        return false;
+        client.connect(port);
     }
 
     public void stop () {
         client.disconnect();
     }
 
-    public void pause () {
-        
+    public void receiveValue (String field, byte[] high, byte[] low) {
+        ByteBuffer highBuff = ByteBuffer.wrap(high);
+        ByteBuffer lowBuff = ByteBuffer.wrap(low);
+
+        double hi = new Double(highBuff.getFloat());
+        double lo = new Double(lowBuff.getFloat());
+
+        receiveValue(field, hi, lo);
     }
 
-    abstract protected Client getClient();
+    abstract protected void receiveValue(String field, double high, double low);
 
-    abstract protected void process(String data);
+    abstract protected SerialClient getClient();
 }

@@ -27,6 +27,10 @@ class Telemetry implements Runnable {
     protected MainController mainController;
     protected static DataController dataController;
     protected static ArchiveController archiveController;
+    
+    protected AbstractGraphPanel graphPanel;
+    protected AbstractDataSelectPanel dataSelectPanel;
+    protected AbstractLiveDataPanel liveDataPanel;
 
 	public static void main (String[] args) throws IOException {
         EventQueue.invokeLater(new Telemetry());
@@ -67,32 +71,27 @@ class Telemetry implements Runnable {
         /*
          * The graph to display the data
          */
-        AbstractGraphPanel graph = new GraphPanel();
-        mainController.useGraphPanel(graph);
+        graphPanel = new GraphPanel();
+        mainController.useGraphPanel(graphPanel);
 
         /*
          * Options regarding which data to display
          */
-        AbstractDataSelectPanel dataSelect = new DataSelectPanel();
-        mainController.useDataSelectPanel(dataSelect);
+        dataSelectPanel = new DataSelectPanel();
+        mainController.useDataSelectPanel(dataSelectPanel);
 
         /*
          * Display for the most recent values of the data being displayed
          */
-        AbstractLiveDataPanel liveData = new LiveDataPanel(dataTypes);
-        mainController.useLiveDataPanel(liveData);
-
-        /*
-         * Add the line panels to the graph
-         */
-        mainController.useLinePanels(getLinePanels());
+        liveDataPanel = new LiveDataPanel();
+        mainController.useLiveDataPanel(liveDataPanel);
 
         /*
          * Create the data controller and get the source
          */
-        dataController = new DataController(dataTypes, mainFrame);
+        dataController = new DataController(mainFrame);
 
-        getDataSource();
+        makeAwareOfTypes();
 
         /*
         * create controller to store data
@@ -104,6 +103,7 @@ class Telemetry implements Runnable {
          */
         mainController.start();
     }
+
 
     protected void registerDataType (String type, String units) {
         collection = new DataType(type, units);
@@ -143,10 +143,14 @@ class Telemetry implements Runnable {
                 type.setProvided(
                     dataSource.provides(type.getType())
                 );
-
-                type.setEnabled(true);
             }
         }
+    }
+
+    protected void makeAwareOfTypes () {
+        DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
+
+        liveDataPanel.setTypes(types);
     }
 
     public static DataController getDataController () {
