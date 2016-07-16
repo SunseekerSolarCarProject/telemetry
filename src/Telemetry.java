@@ -100,20 +100,6 @@ class Telemetry implements Runnable {
         archiveController = new ArchiveController(dataTypes, mainFrame);
 
         /*
-        * start storing data
-        */
-        /*try{
-            archiveController.start();
-        } catch (IOException e) {
-            System.out.println("IOException occured on start");
-        }*/
-
-        /*
-         * Start collecting data
-         */
-        //dataController.start();
-
-        /*
          * Start the application
          */
         mainController.start();

@@ -32,14 +32,15 @@ public class FileSelect extends AbstractArchive {
 		);
 
 		this.setFileFilter(filter);
-
 	}
 
 	/*
 	* select a file to save to
 	*/
 	protected String chooseSaveFile() {
-		int returnVal = this.showOpenDialog(getParent());
+		this.setSelectedFile(new File("telemetryData"));
+		int returnVal = this.showSaveDialog(getParent());
+
 
 		if(returnVal == JFileChooser.APPROVE_OPTION &&  this.approved(this.getSelectedFile().toString())) {
 			System.out.println("File Name: " + this.getSelectedFile().getName());

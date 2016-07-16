@@ -94,7 +94,15 @@ class ArchiveController {
     }
 
     public void saveFile () {
-        //archive.saveFIle();
+        try{            
+            archive.saveFile();
+        }
+        catch(IOException e){
+            System.out.println("Could not write to file" + e);
+        }
+        catch(Exception e){
+            System.out.println("failure: " + e);
+        }
     }
 
     public DataSourceInterface getDataSource () {

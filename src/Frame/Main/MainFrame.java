@@ -15,9 +15,14 @@ import javax.swing.SpringLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
+
+import java.awt.event.WindowEvent;
+
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
+
+import java.io.IOException;
 
 class MainFrame extends AbstractMainFrame {
     protected SpringLayout layout;
@@ -134,6 +139,7 @@ class MainFrame extends AbstractMainFrame {
     }
 
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
+        
         /*
          * Remove the existing panel
          */
@@ -227,6 +233,6 @@ class MainFrame extends AbstractMainFrame {
         );
 
         dataPanelsWidth += width;
-    }
+    } 
 
 }

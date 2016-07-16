@@ -10,7 +10,6 @@ package sunseeker.telemetry;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -42,7 +41,6 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 
 		menus();
 		menuItems();
-
 
 		source.add(selectSource);
 		add(source);

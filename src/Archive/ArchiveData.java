@@ -98,6 +98,7 @@ public class ArchiveData extends AbstractArchive {
 	public void closeAll () throws IOException {
 		try{
 			write.close();
+			System.out.println("File closed.");
 		} catch(IOException e) {
 			System.out.println("Failed to close file... \n Error:" + e);
 		} catch(Exception e){
@@ -110,7 +111,8 @@ public class ArchiveData extends AbstractArchive {
 		this.closeAll();
 		
 		try{
-			write = new FileWriter (file, true);
+			write = new FileWriter (this.file, true);
+			System.out.println("File Saved.");
 		} catch (IOException e) {
 			System.out.println("Failed to properly reopen file.");
 		} catch (Exception e) {
