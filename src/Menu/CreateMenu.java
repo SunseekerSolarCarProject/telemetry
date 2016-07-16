@@ -62,33 +62,29 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 
 		switch(e.getActionCommand()) {
 			case ACTION_SOURCE:
-				Telemetry.getDataSource();
+				
 				break;
 			case ACTION_FILE_SELECT:
-				try{
-            		Telemetry.getArchiveController().promptForSaveFile();
+				/*try{
+            		
         		} catch(IOException io) {
             		System.out.println("Failure to start file");
-        		}
+        		}*/
 				break;
 			case ACTION_FILE_CLOSE:
-				try{
-					Telemetry.getArchiveController().stop();
+				/*try{
+
 				} catch(IOException io) {
 					System.out.println("Failure to clsoe file");
-				} catch(Exception io) {}
+				} catch(Exception io) {}*/
 				break;
 			case ACTION_FILE_SAVE:
-				Telemetry.getArchiveController().saveFile();
 				break;
 			case ACTION_DATA_START:
-				Telemetry.getDataController().start();
 				break;
 			case ACTION_DATA_RESTART:
-				Telemetry.getDataController().restart();
 				break;
 			case ACTION_DATA_END:
-				Telemetry.getDataController().stop();
 				break;
 		}
 

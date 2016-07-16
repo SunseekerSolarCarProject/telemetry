@@ -19,14 +19,13 @@ import java.io.IOException;
 
 class Telemetry implements Runnable {
 
-    DataSourceInterface dataSource;
     DataTypeInterface collection;
 
     protected static AbstractDataTypeCollection dataTypes;
 
     protected MainController mainController;
-    protected static DataController dataController;
-    protected static ArchiveController archiveController;
+    protected DataController dataController;
+    protected ArchiveController archiveController;
     
     protected AbstractGraphPanel graphPanel;
     protected AbstractDataSelectPanel dataSelectPanel;
@@ -47,8 +46,6 @@ class Telemetry implements Runnable {
         registerDataType("voltage", "volts");
         registerDataType("current", "amps");
         registerDataType("array", "watts");
-
-        dataSource = new PseudoRandomDataSource(dataTypes);
     }
 
     public void run () {
@@ -125,7 +122,7 @@ class Telemetry implements Runnable {
         return panels;
     }
 
-    protected static void getDataSource () {
+    protected void getDataSource () {
         DataSourceInterface current;
 
         if ((current = dataController.getDataSource()) != null) {
@@ -137,7 +134,7 @@ class Telemetry implements Runnable {
         checkDataTypes(dataController.getDataSource());
     }
 
-    protected static void checkDataTypes (DataSourceInterface dataSource) {
+    protected void checkDataTypes (DataSourceInterface dataSource) {
         if (dataSource != null) {
             for (DataTypeInterface type : dataTypes) {
                 type.setProvided(
@@ -153,11 +150,4 @@ class Telemetry implements Runnable {
         liveDataPanel.setTypes(types);
     }
 
-    public static DataController getDataController () {
-        return dataController;
-    }
-
-    public static ArchiveController getArchiveController () {
-        return archiveController;
-    }
 }
