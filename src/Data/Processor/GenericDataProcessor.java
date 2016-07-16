@@ -7,6 +7,8 @@
 
 package sunseeker.telemetry;
 
+import java.nio.ByteBuffer;
+
 class GenericDataProcessor extends AbstractDataProcessor {
     public void receiveData (String data) {
         String[] lines = data.split("\\r\\n");
@@ -30,17 +32,21 @@ class GenericDataProcessor extends AbstractDataProcessor {
 
     protected byte[] bytesFromHex (String hex) throws NumberFormatException {
         if (hex.matches("0x[0-9A-F]{8}"))
-            return toByteArray(Integer.parseInt(hex.substring(2), 16));
+            return toByteArray(Long.parseLong(hex.substring(2), 16));
 
-        return new byte[] {0, 0, 0, 0};
+        return toByteArray(0);
     }
 
-    protected byte[] toByteArray (int bytes) {
+    protected byte[] toByteArray (long val) {
         return new byte[] {
-            (byte) (bytes >> 0 & 0xff),
-            (byte) (bytes >> 8 & 0xff), 
-            (byte) (bytes >> 16 & 0xff),
-            (byte) (bytes >> 24 & 0xff)
+            processByteAtOffset(val, 0),
+            processByteAtOffset(val, 8),
+            processByteAtOffset(val, 16),
+            processByteAtOffset(val, 24)
         };
+    }
+
+    protected byte processByteAtOffset (long val, int offset) {
+        return (byte) (val >> offset & 0xFF);
     }
 }

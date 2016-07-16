@@ -16,86 +16,95 @@ import java.lang.Exception;
 
 public class FileSelect extends AbstractArchive {
 
-	protected FileFilter filter;
+    protected FileFilter filter;
 
-	protected int counter = 1;
+    protected int counter = 1;
 
-	FileSelect () {
-		
-		/*
-		* only show txt and csv files
-		*/
-		filter = new FileNameExtensionFilter(
-			"text and csv",
-			"txt",
-			"csv"
-		);
+    FileSelect () {
+        
+        /*
+        * only show txt and csv files
+        */
+        filter = new FileNameExtensionFilter(
+            "text and csv",
+            "txt",
+            "csv"
+        );
 
-		this.setFileFilter(filter);
-	}
+        this.setFileFilter(filter);
+    }
 
-	/*
-	* select a file to save to
-	*/
-	protected String chooseSaveFile() {
-		this.setSelectedFile(new File("telemetryData"));
-		int returnVal = this.showSaveDialog(getParent());
+    /*
+    * select a file to save to
+    */
+    protected String chooseSaveFile() {
+        this.setSelectedFile(new File("telemetryData"));
+        int returnVal = this.showSaveDialog(getParent());
 
 
-		if(returnVal == JFileChooser.APPROVE_OPTION &&  this.approved(this.getSelectedFile().toString())) {
-			System.out.println("File Name: " + this.getSelectedFile().getName());
-			System.out.println("Writing to: " + this.getSelectedFile() + ".txt");
-		}
+        if(returnVal == JFileChooser.APPROVE_OPTION &&  this.approved(this.getSelectedFile().toString())) {
+            System.out.println("File Name: " + this.getSelectedFile().getName());
+            System.out.println("Writing to: " + this.getSelectedFile() + ".txt");
+        }
 
-		return this.getSelectedFile().toString();
-	}
+        return this.getSelectedFile().toString();
+    }
 
-	/*
-	* checks that file name is open
-	*/
-	protected boolean approved (String filePath){
-		//create editable copy
-		String fileName = filePath;
-		//create file to check for existing file
-		File file = new File(filePath + ".txt");
+    /*
+    * checks that file name is open
+    */
+    protected boolean approved (String filePath){
+        
+        /*
+        * copy original file name
+        */
+        String fileName = filePath;
+        
+        /*
+        * create file path
+        */
+        File file = new File(filePath + ".txt");
 
-		try{
+        try{
 
-			//check if file exists
-			while(file.isFile()){
+            /*
+            * Check if file already exists
+            */
+            while(file.isFile()){
 
-				//copy original file path
-				//add (#) to file name
-				fileName = (filePath + "(" + counter + ")");
+                /*
+                * Add (#) to original file name.
+                */
+                fileName = (filePath + "(" + counter + ")");
 
-				//create file to search
-				file = new File(fileName + ".txt");
+                //create file to search
+                file = new File(fileName + ".txt");
 
-				this.counter++;
-			}
+                this.counter++;
+            }
 
-			//set file name to approved file
-			this.setFile(fileName);
+            //set file name to approved file
+            this.setFile(fileName);
 
-			return true;
+            return true;
 
-		} catch(Exception e) {
-			System.out.println("failed to make file...");
+        } catch(Exception e) {
+            System.out.println("failed to make file...");
 
-			return false;
-		}
-		
-	}
+            return false;
+        }
+        
+    }
 
-	/*
-	* sets file to approved file name
-	*/
-	protected void setFile (String fileName) {
-		File file = new File(fileName);
+    /*
+    * sets file to approved file name
+    */
+    protected void setFile (String fileName) {
+        File file = new File(fileName);
 
-		//only accepts type File
-		this.setSelectedFile(file);
+        //only accepts type File
+        this.setSelectedFile(file);
 
-	}
+    }
 
 }

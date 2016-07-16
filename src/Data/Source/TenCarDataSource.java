@@ -11,16 +11,35 @@ import javax.swing.JFrame;
 import java.nio.ByteBuffer;
 
 class TenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
-    public TenCarDataSource () {
-        registerDataType("Motor Controller 1 Speed", "RPM");
-    }
+    /*
+     * Data values output by this source
+     */
+    final protected String BP_VMAX = "BP_VMX";
+    final protected String BP_VMIN = "BP_VMN";
+    final protected String BP_ISH  = "BP_ISH";
 
     public String getName () {
-        return "2010 Car Data Source";
+        return "2010 Sunseeker Solar Car";
     }
 
-    protected void receiveValue(String field, double high, double low) {
-        
+    protected void registerDataTypes () {
+        registerDataMapping(
+            BP_VMAX,
+            registerDataType("Max. Cell Voltage", "Volt"),
+            null
+        );
+
+        registerDataMapping(
+            BP_VMIN,
+            registerDataType("Min. Cell Voltage", "Volt"),
+            null
+        );
+
+        registerDataMapping(
+            BP_ISH,
+            registerDataType("Shunt Current", "Amps"),
+            null
+        );
     }
 
     protected SerialClient getClient () {

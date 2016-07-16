@@ -12,7 +12,6 @@ package sunseeker.telemetry;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
-import javax.swing.JMenuBar;
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
 
@@ -34,11 +33,15 @@ class MainFrame extends AbstractMainFrame {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
+    protected AbstractLinePanel[] linePanels;
+
     protected int depth = 1;
 
     protected int dataPanelsWidth = 0;
 
     public MainFrame () {
+        setTitle("Telemetry");
+
         /*
          * Only need to build once
          */
@@ -84,10 +87,6 @@ class MainFrame extends AbstractMainFrame {
             graphPanel.repaint();
 
         super.showFrame();
-    }
-
-    public void useMenu (AbstractMenu menuBar) {
-        this.setJMenuBar(menuBar);
     }
 
     public void useGraphPanel (AbstractGraphPanel panel) {
@@ -171,6 +170,16 @@ class MainFrame extends AbstractMainFrame {
 
             layeredPane.add(panel, new Integer(depth++));
         }
+    }
+
+    public void removeLinePanels () {
+        if (linePanels == null)
+            return;
+
+        for (AbstractLinePanel panel : linePanels)
+            layeredPane.remove(panel);
+
+        depth -= linePanels.length;
     }
 
     protected void configureLayeredPane () {

@@ -17,108 +17,108 @@ import java.io.IOException;
 
 public class ArchiveData extends AbstractArchive {
 
-	protected File file;
+    protected File file;
 
-	protected FileWriter write;
+    protected FileWriter write;
 
-	protected static int counter = 0;
-	protected static String line;
+    protected static int counter = 0;
+    protected static String line;
 
-	final String HEAD    = "Counter,";
-	final String TIME    = "Time,";
-	final String SPEED   = "Speed,";
-	final String VOLTAGE = "Voltage,";
-	final String CURRENT = "Current,";
-	final String ERRORS  = "Errors";
+    final String HEAD    = "Counter,";
+    final String TIME    = "Time,";
+    final String SPEED   = "Speed,";
+    final String VOLTAGE = "Voltage,";
+    final String CURRENT = "Current,";
+    final String ERRORS  = "Errors";
 
 
-	ArchiveData (String fileName) throws IOException{
+    ArchiveData (String fileName) throws IOException{
 
-		/*
-		* create text file with fileName from FileSelect class
-		*/		
-		file = new File(fileName + ".txt");
-		
-		try{
-			write = new FileWriter(file);
-		} catch (IOException e) {
-			System.out.println("Failed to open file... ");
-		} catch(Exception e) {
-			System.out.println("Probably your fault... " + e);
-		}
+        /*
+        * create text file with fileName from FileSelect class
+        */      
+        file = new File(fileName + ".txt");
+        
+        try{
+            write = new FileWriter(file);
+        } catch (IOException e) {
+            System.out.println("Failed to open file... ");
+        } catch (Exception e) {
+            System.out.println("Probably your fault... " + e);
+        }
 
-		this.startFile();
-	}
+        this.startFile();
+    }
 
-	/*
-	* add headers to file in csv format;
-	*/
-	protected void startFile () throws IOException {
-		write.append("" + HEAD  + TIME + VOLTAGE + CURRENT + SPEED + ERRORS);
-		write.append("\n");
-	}
+    /*
+    * add headers to file in csv format;
+    */
+    protected void startFile () throws IOException {
+        write.append("" + HEAD  + TIME + VOLTAGE + CURRENT + SPEED + ERRORS);
+        write.append("\n");
+    }
 
-	protected static String packageData (DataTypeInterface data) {
-		String line = "";
+    protected static String packageData (DataTypeInterface data) {
+        String line = "";
 
-		/*
-		* Test Data
-		*/
-		String speed = "10",volt = "100",amp = " 500";
+        /*
+        * Test Data
+        */
+        String speed = "10",volt = "100",amp = " 500";
 
-		
-		/*
-		* packs data in order of headers
-		*/
-		line = (counter + ", " + counter + ", " + volt + ", " + amp + ", " + "00" + "\n");
-		counter++;
+        
+        /*
+        * packs data in order of headers
+        */
+        line = (counter + ", " + counter + ", " + volt + ", " + amp + ", " + "00" + "\n");
+        counter++;
 
-		return line;
-	}
+        return line;
+    }
 
-	/*
-	* add a line of text to file
-	*/
-	protected void writeData (String line) throws IOException { 
+    /*
+    * add a line of text to file
+    */
+    protected void writeData (String line) throws IOException { 
 
-		try{
-			write.append(line);
+        try{
+            write.append(line);
 
-		}catch (IOException e){
-			System.err.println("IOException");
-		}catch (Exception e){
-			System.err.println("Unknown Error" + e);
-		}
-			
-	}
+        }catch (IOException e){
+            System.err.println("IOException");
+        }catch (Exception e){
+            System.err.println("Unknown Error" + e);
+        }
+            
+    }
 
-	/*
-	* properly close file(s)
-	*/
-	public void closeAll () throws IOException {
-		try{
-			write.close();
-			System.out.println("File closed.");
-		} catch(IOException e) {
-			System.out.println("Failed to close file... \n Error:" + e);
-		} catch(Exception e){
-			System.out.println("Probably your fault... " + e);
-		}
-	}
+    /*
+    * properly close file(s)
+    */
+    public void closeAll () throws IOException {
+        try{
+            write.close();
+            System.out.println("File closed.");
+        } catch(IOException e) {
+            System.out.println("Failed to close file... \n Error:" + e);
+        } catch(Exception e){
+            System.out.println("Probably your fault... " + e);
+        }
+    }
 
-	public void saveFile () throws IOException {
+    public void saveFile () throws IOException {
 
-		this.closeAll();
-		
-		try{
-			write = new FileWriter (this.file, true);
-			System.out.println("File Saved.");
-		} catch (IOException e) {
-			System.out.println("Failed to properly reopen file.");
-		} catch (Exception e) {
-			System.out.println("Failed to save file");
-		}
+        this.closeAll();
+        
+        try{
+            write = new FileWriter (this.file, true);
+            System.out.println("File Saved.");
+        } catch (IOException e) {
+            System.out.println("Failed to properly reopen file.");
+        } catch (Exception e) {
+            System.out.println("Failed to save file");
+        }
 
-	}
+    }
 
 }

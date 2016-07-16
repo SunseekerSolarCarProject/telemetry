@@ -36,7 +36,8 @@ class DataController {
         /*
          * Force the user to pick a data source
          */
-        promptForDataSource();
+        while (dataSource == null)
+            promptForDataSource();
     }
 
     public void start () {

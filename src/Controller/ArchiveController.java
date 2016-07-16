@@ -33,7 +33,7 @@ class ArchiveController {
     public void stop () throws IOException {
         try {
             archive.closeAll();
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("could not close file...");
         }
     }
@@ -46,10 +46,10 @@ class ArchiveController {
         try{            
             archive = new ArchiveData(select.chooseSaveFile());
         }
-        catch(IOException e){
+        catch (IOException e){
             System.out.println("Could not write to file" + e);
         }
-        catch(Exception e){
+        catch (Exception e){
             System.out.println("failure: " + e);
         }
           
@@ -59,10 +59,10 @@ class ArchiveController {
         try{            
             archive.saveFile();
         }
-        catch(IOException e){
+        catch (IOException e){
             System.out.println("Could not write to file" + e);
         }
-        catch(Exception e){
+        catch (Exception e){
             System.out.println("failure: " + e);
         }
     }

@@ -16,8 +16,8 @@ abstract class AbstractGraphPanel extends AbstractPanel {
     final public static int PANEL_HEIGHT = 400;
     final public static int PANEL_WIDTH  = AbstractMainFrame.FRAME_WIDTH - AbstractMainFrame.AXIS_PADDING;
 
-    final public static int Y_AXIS_MIN   = -500; // Must be <= 0
-    final public static int Y_AXIS_MAX   = 500;
+    final public static int Y_AXIS_MIN   = -180; // Must be <= 0
+    final public static int Y_AXIS_MAX   = 180;
     final public static int Y_AXIS_RANGE = Math.abs(Y_AXIS_MIN) + Y_AXIS_MAX;
     final public static int Y_AXIS_SCALE = 10;
     final public static int Y_AXIS_INSET = AXIS_INSET;
@@ -29,8 +29,6 @@ abstract class AbstractGraphPanel extends AbstractPanel {
 
     protected static int xAxisInset;
     protected static double ratio;
-
-    protected DataTypeCollectionInterface types;
 
     public AbstractGraphPanel () {
         setBackground(Color.WHITE);
@@ -55,10 +53,6 @@ abstract class AbstractGraphPanel extends AbstractPanel {
         if (value < 0)
             pos = Y_AXIS_MIN * (value / Y_AXIS_MIN);
 
-        return xAxisInset + (int) (pos * ratio);
-    }
-    
-    public void setTypes (DataTypeCollectionInterface types) {
-        this.types = types;
+        return xAxisInset - (int) (pos * ratio);
     }
 }
