@@ -21,7 +21,7 @@ class Telemetry implements Runnable {
 
     DataTypeInterface collection;
 
-    protected static AbstractDataTypeCollection dataTypes;
+    protected DataTypeCollectionInterface dataTypes;
 
     protected MainController mainController;
     protected DataController dataController;
@@ -93,7 +93,7 @@ class Telemetry implements Runnable {
         /*
         * create controller to store data
         */
-        archiveController = new ArchiveController(dataTypes, mainFrame);
+        archiveController = new ArchiveController();
 
         /*
          * Start the application
@@ -115,33 +115,7 @@ class Telemetry implements Runnable {
         for (DataTypeInterface type : dataTypes)
             panels[i++] = new LinePanel(type);
 
-            collection.setProvided(
-                dataSource.provides(collection.getType())
-            );
-
         return panels;
-    }
-
-    protected void getDataSource () {
-        DataSourceInterface current;
-
-        if ((current = dataController.getDataSource()) != null) {
-            current.stop();
-        }
-
-        dataController.promptForDataSource();
-
-        checkDataTypes(dataController.getDataSource());
-    }
-
-    protected void checkDataTypes (DataSourceInterface dataSource) {
-        if (dataSource != null) {
-            for (DataTypeInterface type : dataTypes) {
-                type.setProvided(
-                    dataSource.provides(type.getType())
-                );
-            }
-        }
     }
 
     protected void makeAwareOfTypes () {
