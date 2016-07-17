@@ -18,7 +18,7 @@ import java.awt.Dimension;
 
 import java.io.IOException;
 
-class CreateMenu extends AbstractMenu implements ActionListener {
+class CreateMenu extends AbstractMenu implements IActions {
 
 	protected JMenu source;
 	protected JMenu file;
@@ -34,13 +34,11 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 	protected JMenuItem restart;
 	protected JMenuItem endSess;
 
-	//protected Actions action;
-
-	CreateMenu () {
+	CreateMenu (ActionListener listen) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
 		menus();
-		menuItems();
+		menuItems(listen);
 
 		source.add(selectSource);
 		add(source);
@@ -55,60 +53,6 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		session.add(endSess);
 		add(session);
 
-		this.telemetry = telemetry;
-		//action = new Actions();
-
-	}
-
-	public void actionPerformed (ActionEvent e) {
-
-		switch(e.getActionCommand()) {
-			case ACTION_SOURCE:
-				telemetry.getDataController().promptForDataSource();
-				break;
-			case ACTION_FILE_SELECT:
-				telemetry.getArchiveController.promptForDataSource();
-				break;
-			case ACTION_FILE_CLOSE:
-				action.menuFunctions(3);
-				break;
-			case ACTION_FILE_SAVE:
-				action.menuFunctions(4);
-				break;
-			case ACTION_DATA_START:
-				action.menuFunctions(5);
-				break;
-			case ACTION_DATA_RESTART:
-				action.menuFunctions(6);
-				break;
-			case ACTION_DATA_END:
-				action.menuFunctions(7);
-				break;
-		}
-		/*
-		switch(e.getActionCommand()) {
-			case ACTION_SOURCE:
-				action.menuFunctions(1);
-				break;
-			case ACTION_FILE_SELECT:
-				action.menuFunctions(2);
-				break;
-			case ACTION_FILE_CLOSE:
-				action.menuFunctions(3);
-				break;
-			case ACTION_FILE_SAVE:
-				action.menuFunctions(4);
-				break;
-			case ACTION_DATA_START:
-				action.menuFunctions(5);
-				break;
-			case ACTION_DATA_RESTART:
-				action.menuFunctions(6);
-				break;
-			case ACTION_DATA_END:
-				action.menuFunctions(7);
-				break;
-		}*/
 
 	}
 
@@ -120,7 +64,7 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		session = new JMenu(DATA, true);
 	}
 
-	protected void menuItems () {
+	protected void menuItems (ActionListener listen) {
 		selectSource = new JMenuItem(ACTION_SOURCE);
 
 		selectFile   = new JMenuItem(ACTION_FILE_SELECT);
@@ -143,20 +87,15 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		endSess.setActionCommand(ACTION_DATA_END);
 
 
-		selectSource.addActionListener(this);
+		selectSource.addActionListener(listen);
 
-		selectFile.addActionListener(this);
-		closeFile.addActionListener(this);
-		saveFile.addActionListener(this);
+		selectFile.addActionListener(listen);
+		closeFile.addActionListener(listen);
+		saveFile.addActionListener(listen);
 
-		startSess.addActionListener(this);
-		restart.addActionListener(this);
-		endSess.addActionListener(this);
+		startSess.addActionListener(listen);
+		restart.addActionListener(listen);
+		endSess.addActionListener(listen);
 	}
-
-	protected void getTelemetry (Telemetry telemetry) {
-		
-	}
-	
  
 }

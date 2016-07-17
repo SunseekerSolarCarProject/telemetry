@@ -32,11 +32,13 @@ class DataController extends AbstractController {
          */
         registerDataSource(new PseudoRandomDataSource());
         registerDataSource(new TenCarDataSource());
+        registerDataSource(new SixteenCarDataSource());
 
         /*
          * Force the user to pick a data source
          */
-        promptForDataSource();
+        while (dataSource == null)
+            promptForDataSource();
     }
 
     public void start () {

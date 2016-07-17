@@ -24,9 +24,11 @@ abstract class AbstractDataSource implements DataSourceInterface {
         return types;
     }
 
-    protected void registerDataType (String name, String unit) {
-        types.add(new DataType(name, unit));
+    protected DataTypeInterface registerDataType (String name, String unit) {
+        DataTypeInterface type = new DataType(name, unit);
+        types.add(type);
         typeNames.add(name);
+        return type;
     }
 
     protected void putValue (String type, double value) {

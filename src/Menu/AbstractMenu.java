@@ -13,32 +13,7 @@ import javax.swing.JMenuBar;
 
 abstract class AbstractMenu extends JMenuBar {
 
-	protected final String SOURCE = "Data Source";
-
-	protected final String ACTION_SOURCE = "Select Data Source";
-
-	protected final String FILE = "File";
-
-	protected final String ACTION_FILE_SELECT = "New File";
-	protected final String ACTION_FILE_SAVE   = "Save File";
-	protected final String ACTION_FILE_CLOSE  = "Close File";
-
-	protected final String DATA = "Data";
-
-	protected final String ACTION_DATA_START   = "Start Session";
-	protected final String ACTION_DATA_END    = "End Session";
-	protected final String ACTION_DATA_RESTART = "Restart Data";
-
 	protected final int HEIGHT = 10;
 	protected final int WIDTH  = 1000;
 
-	protected int activate = 0;
-
-	protected void setActivate (int i) {
-		activate = i;
-	}
-
-	public int getActivate () {
-		return this.activate;
-	}
 }

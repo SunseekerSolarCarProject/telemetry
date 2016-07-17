@@ -7,14 +7,18 @@
 
 package sunseeker.telemetry;
 
-import javax.swing.JFrame;
+
+
 import javax.swing.JMenuBar;
 import java.lang.Runnable;
 import java.lang.Thread;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.Timer;
 
 class MainController extends AbstractController implements Runnable, ActionListener{
     final public static int LINE_REFRESH_INTERVAL = 250;
@@ -22,10 +26,8 @@ class MainController extends AbstractController implements Runnable, ActionListe
     protected AbstractMainFrame mainFrame;
 
     protected AbstractGraphPanel graphPanel;
-
     protected AbstractLiveDataPanel liveDataPanel;
-
-    protected boolean paused = false;
+    protected AbstractDataSelectPanel dataSelectPanel;
 
     protected Timer dataUpdater;
 
@@ -39,12 +41,27 @@ class MainController extends AbstractController implements Runnable, ActionListe
         mainFrame.useMenu(menu);
     }
 
+    public void setTypes (DataTypeCollectionInterface types) {
+        liveDataPanel.setTypes(types);
+        dataSelectPanel.setTypes(types);
+
+        mainFrame.removeLinePanels();
+
+        AbstractLinePanel[] panels = new AbstractLinePanel[types.size()];
+        int i = 0;
+
+        for (DataTypeInterface type : types)
+            panels[i++] = new LinePanel(type);
+
+        mainFrame.useLinePanels(panels);
+    }
+
     public void useGraphPanel (AbstractGraphPanel panel) {
         mainFrame.useGraphPanel(graphPanel = panel);
     }
 
     public void useDataSelectPanel (AbstractDataSelectPanel panel) {
-        mainFrame.useDataSelectPanel(panel);
+        mainFrame.useDataSelectPanel(dataSelectPanel = panel);
     }
 
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {

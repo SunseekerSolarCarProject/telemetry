@@ -34,11 +34,15 @@ class MainFrame extends AbstractMainFrame {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
+    protected AbstractLinePanel[] linePanels;
+
     protected int depth = 1;
 
     protected int dataPanelsWidth = 0;
 
     public MainFrame () {
+        setTitle("Telemetry");
+
         /*
          * Only need to build once
          */
@@ -171,6 +175,16 @@ class MainFrame extends AbstractMainFrame {
 
             layeredPane.add(panel, new Integer(depth++));
         }
+    }
+
+    public void removeLinePanels () {
+        if (linePanels == null)
+            return;
+
+        for (AbstractLinePanel panel : linePanels)
+            layeredPane.remove(panel);
+
+        depth -= linePanels.length;
     }
 
     protected void configureLayeredPane () {

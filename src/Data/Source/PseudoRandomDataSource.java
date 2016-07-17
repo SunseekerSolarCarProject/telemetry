@@ -25,7 +25,7 @@ class PseudoRandomDataSource extends AbstractDataSource implements DataSourceInt
     }
 
     public String getName () {
-        return "Pseudo Random Data Source";
+        return "Pseudo Random Number Generator";
     }
 
     public void run () {

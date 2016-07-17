@@ -22,15 +22,9 @@ class ArchiveController extends AbstractController {
 
     ArchiveController () {
         select = new FileSelect();
-    }
+    }       
 
-    public void start () throws IOException {
-        
-        promptForSaveFile();
-        
-    }        
-
-    public void stop () throws IOException {
+    public void stop () {
         try {
             archive.closeAll();
         } catch(IOException e) {
@@ -38,7 +32,7 @@ class ArchiveController extends AbstractController {
         }
     }
 
-    public void promptForSaveFile () throws IOException {
+    public void promptForSaveFile () {
 
         /*
          * select and open file

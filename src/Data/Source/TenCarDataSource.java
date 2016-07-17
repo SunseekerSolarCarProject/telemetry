@@ -11,16 +11,64 @@ import javax.swing.JFrame;
 import java.nio.ByteBuffer;
 
 class TenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
-    public TenCarDataSource () {
-        registerDataType("Motor Controller 1 Speed", "RPM");
-    }
+    /*
+     * Data values output by this source
+     */
+    final protected String BP_VMAX = "BP_VMX";
+    final protected String BP_VMIN = "BP_VMN";
+    final protected String BP_TMX  = "BP_TMX";
+    final protected String BP_ISH  = "BP_ISH";
+
+    final protected String MC1_VEL = "MC1VEL";
+    final protected String MC2_VEL = "MC2VEL";
+    final protected String MC1_TP1 = "MC1TP1";
 
     public String getName () {
-        return "2010 Car Data Source";
+        return "2010 Sunseeker Solar Car";
     }
 
-    protected void receiveValue(String field, double high, double low) {
-        
+    protected void registerDataTypes () {
+        registerDataMapping(
+            BP_VMAX,
+            registerDataType("Max. Cell Voltage", "Volts"),
+            null
+        );
+
+        registerDataMapping(
+            BP_VMIN,
+            registerDataType("Min. Cell Voltage", "Volts"),
+            null
+        );
+
+        registerDataMapping(
+            BP_TMX,
+            registerDataType("Max. Cell Temp.", "C"),
+            null
+        );
+
+        registerDataMapping(
+            BP_ISH,
+            registerDataType("Shunt Current", "Amps"),
+            null
+        );
+
+        registerDataMapping(
+            MC1_VEL,
+            registerDataType("Motor Controller 1 Speed", "m/s"),
+            registerDataType("Motor Controller 1 Rotations", "rpm")
+        );
+
+        registerDataMapping(
+            MC2_VEL,
+            registerDataType("Motor Controller 2 Speed", "m/s"),
+            registerDataType("Motor Controller 2 Rotations", "rpm")
+        );
+
+        registerDataMapping(
+            MC1_TP1,
+            registerDataType("Motor Controller 1 Heatsink Temp.", "C"),
+            registerDataType("Motor Controller 1 Motor Temp.", "C")
+        );
     }
 
     protected SerialClient getClient () {

@@ -8,15 +8,42 @@
 package sunseeker.telemetry;
 
 import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.HashMap;
 import gnu.io.CommPortIdentifier;
 
 abstract class AbstractSerialDataSource extends AbstractDataSource {
+    /*
+     * Some values are reserved and cannot be registered
+     */
+    final protected DataTypeInterface RESERVED = null;
+
+    /*
+     * Some values simply are not used
+     */
+    final protected DataTypeInterface UNUSED = null;
+
+    /*
+     * The port which is connected to
+     */
     protected CommPortIdentifier port;
 
+    /*
+     * Facilitates the connecting to and disconnecting from the port
+     */
     protected SerialClient client;
+
+    /*
+     * Incoming data fields and their corresponding types
+     */
+    protected Map<String, DataTypeInterface[]> mappings;
 
     public AbstractSerialDataSource () {
         client = getClient();
+
+        mappings = new HashMap<String, DataTypeInterface[]>();
+
+        registerDataTypes();
     }
 
     public void setPort (CommPortIdentifier port) {
@@ -30,21 +57,36 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
         client.connect(port);
     }
 
-    public void stop () {
-        client.disconnect();
-    }
-
     public void receiveValue (String field, byte[] high, byte[] low) {
         ByteBuffer highBuff = ByteBuffer.wrap(high);
         ByteBuffer lowBuff = ByteBuffer.wrap(low);
 
-        double hi = new Double(highBuff.getFloat());
-        double lo = new Double(lowBuff.getFloat());
-
-        receiveValue(field, hi, lo);
+        receiveValue(
+            field,
+            highBuff.getFloat(),
+            lowBuff.getFloat()
+        );
     }
 
-    abstract protected void receiveValue(String field, double high, double low);
+    protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
+        mappings.put(field, new DataTypeInterface[] {
+            high, low
+        });
+    }
+
+    protected void receiveValue(String field, double high, double low) {
+        if (mappings.containsKey(field)) {
+            DataTypeInterface[] types = mappings.get(field);
+
+            if (types[0] != null)
+                types[0].putValue(high);
+
+            if (types[1] != null)
+                types[1].putValue(low);
+        }
+    }
+
+    abstract protected void registerDataTypes();
 
     abstract protected SerialClient getClient();
 }

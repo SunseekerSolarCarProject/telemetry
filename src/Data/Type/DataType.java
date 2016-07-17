@@ -54,6 +54,8 @@ class DataType implements DataTypeInterface {
          * Create a synconized data list
          */
         data = Collections.synchronizedList(new ArrayList<Double>());
+
+        data.add(0.0);
     }
 
     public String getName () {
@@ -80,11 +82,9 @@ class DataType implements DataTypeInterface {
         if (data.size() >= MAX_DATA_POINTS)
             data.remove(0);
 
-        data.add(value);
-
         cur = value;
 
-        if (data.size() == 0) {
+        if (data.size() == 1) {
             min = value;
             max = value;
         } else {
@@ -94,6 +94,8 @@ class DataType implements DataTypeInterface {
             if (value > max)
                 max = value;
         }
+
+        data.add(value);
     }
 
     public List<Double> getData () {

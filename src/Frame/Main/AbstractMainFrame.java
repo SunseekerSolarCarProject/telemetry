@@ -22,4 +22,6 @@ abstract class AbstractMainFrame extends AbstractFrame {
     abstract public void useLiveDataPanel(AbstractLiveDataPanel panel);
 
     abstract public void useLinePanels(AbstractLinePanel[] panels);
+
+    abstract public void removeLinePanels();
 }

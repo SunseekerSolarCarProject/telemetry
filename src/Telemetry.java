@@ -10,6 +10,9 @@
 
 package sunseeker.telemetry;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.lang.Runnable;
@@ -17,7 +20,7 @@ import java.lang.Runnable;
 import java.lang.Exception;
 import java.io.IOException;
 
-class Telemetry implements Runnable {
+class Telemetry implements Runnable, ActionListener, IActions {
 
     DataTypeInterface collection;
 
@@ -32,7 +35,7 @@ class Telemetry implements Runnable {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
-	public static void main (String[] args) throws IOException {
+	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
 
@@ -63,8 +66,7 @@ class Telemetry implements Runnable {
         /*
         * Displays menu
         */
-        menu = new CreateMenu();
-        menu.getTelemetry(this);
+        menu = new CreateMenu(this);
         mainController.useMenu(menu);
 
         /*
@@ -123,49 +125,34 @@ class Telemetry implements Runnable {
     protected void makeAwareOfTypes () {
         DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
 
-        liveDataPanel.setTypes(types);
+        mainController.setTypes(types);
     }
 
-    public void useControllers () {
+    public void actionPerformed (ActionEvent e) {
 
-        class ControlActions {
-
-            public void menuFunctions (int activate) {
-
-                switch (activate) {
-                    case 0:
-                        break;
-                    case 1:
-                        dataController.promptForDataSource();
-                        break;
-                    case 2:
-                        try{
-                            archiveController.promptForSaveFile();
-                        } catch(IOException e){}                
-                        break;
-                    case 3:
-                        try{
-                            archiveController.stop();;
-                        } catch(IOException e){}  
-                        break;
-                    case 4:
-                        archiveController.saveFile();
-                        break;
-                    case 5:
-                        dataController.start();
-                        break;
-                    case 6:
-                        dataController.restart();
-                        break;
-                    case 7:
-                        dataController.stop();
-                        break;
-                }
-
-            }
-
+        switch(e.getActionCommand()) {
+            case ACTION_SOURCE:
+                dataController.promptForDataSource();
+                break;
+            case ACTION_FILE_SELECT:
+                archiveController.promptForSaveFile();
+                break;
+            case ACTION_FILE_CLOSE:
+                archiveController.stop();
+                break;
+            case ACTION_FILE_SAVE:
+                archiveController.saveFile();
+                break;
+            case ACTION_DATA_START:
+                dataController.start();
+                break;
+            case ACTION_DATA_RESTART:
+                dataController.restart();
+                break;
+            case ACTION_DATA_END:
+                dataController.stop();
+                break;
         }
-
     }
 
 }

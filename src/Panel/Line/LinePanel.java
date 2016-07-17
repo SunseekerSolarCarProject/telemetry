@@ -57,7 +57,6 @@ class LinePanel extends AbstractLinePanel {
          */
         if (data.isEnabled()) {
             loadPoints();
-
             drawSegments();
         }
     }
@@ -65,11 +64,10 @@ class LinePanel extends AbstractLinePanel {
     protected void loadPoints () {
         List<Double> data = this.data.getData();
 
+        points.clear();
+
         for (Double value : data)
             pushPoint(AbstractGraphPanel.getYPos(previousValue = value));
-
-        if (data.size() == 0)
-            pushPoint(AbstractGraphPanel.getYPos(previousValue));
     }
 
     protected void pushPoint (Integer point) {
