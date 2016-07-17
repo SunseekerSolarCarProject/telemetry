@@ -32,4 +32,13 @@ abstract class AbstractMenu extends JMenuBar {
 	protected final int HEIGHT = 10;
 	protected final int WIDTH  = 1000;
 
+	protected int activate = 0;
+
+	protected void setActivate (int i) {
+		activate = i;
+	}
+
+	public int getActivate () {
+		return this.activate;
+	}
 }

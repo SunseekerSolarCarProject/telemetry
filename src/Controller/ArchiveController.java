@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.Thread;
 
-class ArchiveController {
+class ArchiveController extends AbstractController {
     protected FileSelect select;
 
     protected ArchiveData archive;

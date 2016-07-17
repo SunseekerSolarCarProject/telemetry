@@ -26,6 +26,7 @@ class Telemetry implements Runnable {
     protected MainController mainController;
     protected DataController dataController;
     protected ArchiveController archiveController;
+    protected AbstractMenu menu;
     
     protected AbstractGraphPanel graphPanel;
     protected AbstractDataSelectPanel dataSelectPanel;
@@ -62,7 +63,8 @@ class Telemetry implements Runnable {
         /*
         * Displays menu
         */
-        AbstractMenu menu = new CreateMenu();
+        menu = new CreateMenu();
+        menu.getTelemetry(this);
         mainController.useMenu(menu);
 
         /*
@@ -122,6 +124,48 @@ class Telemetry implements Runnable {
         DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
 
         liveDataPanel.setTypes(types);
+    }
+
+    public void useControllers () {
+
+        class ControlActions {
+
+            public void menuFunctions (int activate) {
+
+                switch (activate) {
+                    case 0:
+                        break;
+                    case 1:
+                        dataController.promptForDataSource();
+                        break;
+                    case 2:
+                        try{
+                            archiveController.promptForSaveFile();
+                        } catch(IOException e){}                
+                        break;
+                    case 3:
+                        try{
+                            archiveController.stop();;
+                        } catch(IOException e){}  
+                        break;
+                    case 4:
+                        archiveController.saveFile();
+                        break;
+                    case 5:
+                        dataController.start();
+                        break;
+                    case 6:
+                        dataController.restart();
+                        break;
+                    case 7:
+                        dataController.stop();
+                        break;
+                }
+
+            }
+
+        }
+
     }
 
 }

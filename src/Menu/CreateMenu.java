@@ -34,7 +34,7 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 	protected JMenuItem restart;
 	protected JMenuItem endSess;
 
-
+	//protected Actions action;
 
 	CreateMenu () {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -55,6 +55,8 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		session.add(endSess);
 		add(session);
 
+		this.telemetry = telemetry;
+		//action = new Actions();
 
 	}
 
@@ -62,31 +64,51 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 
 		switch(e.getActionCommand()) {
 			case ACTION_SOURCE:
-				
+				telemetry.getDataController().promptForDataSource();
 				break;
 			case ACTION_FILE_SELECT:
-				/*try{
-            		
-        		} catch(IOException io) {
-            		System.out.println("Failure to start file");
-        		}*/
+				telemetry.getArchiveController.promptForDataSource();
 				break;
 			case ACTION_FILE_CLOSE:
-				/*try{
-
-				} catch(IOException io) {
-					System.out.println("Failure to clsoe file");
-				} catch(Exception io) {}*/
+				action.menuFunctions(3);
 				break;
 			case ACTION_FILE_SAVE:
+				action.menuFunctions(4);
 				break;
 			case ACTION_DATA_START:
+				action.menuFunctions(5);
 				break;
 			case ACTION_DATA_RESTART:
+				action.menuFunctions(6);
 				break;
 			case ACTION_DATA_END:
+				action.menuFunctions(7);
 				break;
 		}
+		/*
+		switch(e.getActionCommand()) {
+			case ACTION_SOURCE:
+				action.menuFunctions(1);
+				break;
+			case ACTION_FILE_SELECT:
+				action.menuFunctions(2);
+				break;
+			case ACTION_FILE_CLOSE:
+				action.menuFunctions(3);
+				break;
+			case ACTION_FILE_SAVE:
+				action.menuFunctions(4);
+				break;
+			case ACTION_DATA_START:
+				action.menuFunctions(5);
+				break;
+			case ACTION_DATA_RESTART:
+				action.menuFunctions(6);
+				break;
+			case ACTION_DATA_END:
+				action.menuFunctions(7);
+				break;
+		}*/
 
 	}
 
@@ -105,10 +127,10 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		closeFile    = new JMenuItem(ACTION_FILE_CLOSE);
 		saveFile     = new JMenuItem(ACTION_FILE_SAVE);
 		
-
 		startSess    = new JMenuItem(ACTION_DATA_START);
 		restart      = new JMenuItem(ACTION_DATA_RESTART);
 		endSess      = new JMenuItem(ACTION_DATA_END);
+
 
 		selectSource.setActionCommand(ACTION_SOURCE);
 
@@ -120,6 +142,7 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		restart.setActionCommand(ACTION_DATA_RESTART);
 		endSess.setActionCommand(ACTION_DATA_END);
 
+
 		selectSource.addActionListener(this);
 
 		selectFile.addActionListener(this);
@@ -130,5 +153,10 @@ class CreateMenu extends AbstractMenu implements ActionListener {
 		restart.addActionListener(this);
 		endSess.addActionListener(this);
 	}
+
+	protected void getTelemetry (Telemetry telemetry) {
+		
+	}
+	
  
 }
