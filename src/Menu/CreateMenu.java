@@ -56,6 +56,9 @@ class CreateMenu extends AbstractMenu implements IActions {
 
 	}
 
+	/*
+	* menu tabs
+	*/
 	protected void menus () {
 		source = new JMenu(SOURCE, true);
 
@@ -64,6 +67,9 @@ class CreateMenu extends AbstractMenu implements IActions {
 		session = new JMenu(DATA, true);
 	}
 
+	/*
+	* creates menuitems, sets listender
+	*/
 	protected void menuItems (ActionListener listen) {
 		selectSource = new JMenuItem(ACTION_SOURCE);
 

@@ -128,6 +128,9 @@ class Telemetry implements Runnable, ActionListener, IActions {
         mainController.setTypes(types);
     }
 
+    /*
+    * performs actions
+    */
     public void actionPerformed (ActionEvent e) {
 
         switch(e.getActionCommand()) {

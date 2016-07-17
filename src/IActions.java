@@ -9,6 +9,9 @@ package sunseeker.telemetry;
 
 interface IActions {
 
+	/*
+	* menu actions
+	*/
 	final String SOURCE = "Data Source";
 
 	final String ACTION_SOURCE = "Select Data Source";
