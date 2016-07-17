@@ -57,16 +57,6 @@ class SixteenCarDataSource extends AbstractSerialDataSource implements DataProce
     final protected String AC_TV1 = "AC_TV1";
     final protected String AC_TV2 = "AC_TV2";
 
-    /*
-     * Some values are reserved and cannot be registered
-     */
-    final protected DataTypeInterface RESERVED = null;
-
-    /*
-     * Some values simply are not used
-     */
-    final protected DataTypeInterface UNUSED = null;
-
     public String getName () {
         return "2016 Sunseeker Solar Car";
     }

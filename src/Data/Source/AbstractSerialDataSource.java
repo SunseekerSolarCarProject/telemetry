@@ -13,10 +13,29 @@ import java.util.HashMap;
 import gnu.io.CommPortIdentifier;
 
 abstract class AbstractSerialDataSource extends AbstractDataSource {
+    /*
+     * Some values are reserved and cannot be registered
+     */
+    final protected DataTypeInterface RESERVED = null;
+
+    /*
+     * Some values simply are not used
+     */
+    final protected DataTypeInterface UNUSED = null;
+
+    /*
+     * The port which is connected to
+     */
     protected CommPortIdentifier port;
 
+    /*
+     * Facilitates the connecting to and disconnecting from the port
+     */
     protected SerialClient client;
 
+    /*
+     * Incoming data fields and their corresponding types
+     */
     protected Map<String, DataTypeInterface[]> mappings;
 
     public AbstractSerialDataSource () {
