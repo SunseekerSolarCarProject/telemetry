@@ -11,6 +11,8 @@ import java.nio.ByteBuffer;
 
 class GenericDataProcessor extends AbstractDataProcessor {
     public void receiveData (String data) {
+        System.out.print(data);
+
         String[] lines = data.split("\\r\\n");
 
         for (String line : lines)

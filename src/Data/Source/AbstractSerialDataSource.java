@@ -22,7 +22,7 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     public AbstractSerialDataSource () {
         client = getClient();
 
-        mappings   = new HashMap<String, DataTypeInterface[]>();
+        mappings = new HashMap<String, DataTypeInterface[]>();
 
         registerDataTypes();
     }
@@ -44,8 +44,8 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
 
         receiveValue(
             field,
-            new Double(highBuff.getFloat()),
-            new Double(lowBuff.getFloat())
+            highBuff.getFloat(),
+            lowBuff.getFloat()
         );
     }
 

@@ -16,7 +16,11 @@ class TenCarDataSource extends AbstractSerialDataSource implements DataProcessor
      */
     final protected String BP_VMAX = "BP_VMX";
     final protected String BP_VMIN = "BP_VMN";
+    final protected String BP_TMX  = "BP_TMX";
     final protected String BP_ISH  = "BP_ISH";
+
+    final protected String MC1_VEL = "MC1VEL";
+    final protected String MC2_VEL = "MC2VEL";
 
     public String getName () {
         return "2010 Sunseeker Solar Car";
@@ -25,13 +29,19 @@ class TenCarDataSource extends AbstractSerialDataSource implements DataProcessor
     protected void registerDataTypes () {
         registerDataMapping(
             BP_VMAX,
-            registerDataType("Max. Cell Voltage", "Volt"),
+            registerDataType("Max. Cell Voltage", "Volts"),
             null
         );
 
         registerDataMapping(
             BP_VMIN,
-            registerDataType("Min. Cell Voltage", "Volt"),
+            registerDataType("Min. Cell Voltage", "Volts"),
+            null
+        );
+
+        registerDataMapping(
+            BP_TMX,
+            registerDataType("Max. Cell Temp.", "C"),
             null
         );
 
@@ -39,6 +49,18 @@ class TenCarDataSource extends AbstractSerialDataSource implements DataProcessor
             BP_ISH,
             registerDataType("Shunt Current", "Amps"),
             null
+        );
+
+        registerDataMapping(
+            MC1_VEL,
+            registerDataType("Motor Controller 1 Speed", "m/s"),
+            registerDataType("Motor Controller 1 Rotations", "rpm")
+        );
+
+        registerDataMapping(
+            MC2_VEL,
+            registerDataType("Motor Controller 2 Speed", "m/s"),
+            registerDataType("Motor Controller 2 Rotations", "rpm")
         );
     }
 
