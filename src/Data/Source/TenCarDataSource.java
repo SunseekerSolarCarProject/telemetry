@@ -21,6 +21,7 @@ class TenCarDataSource extends AbstractSerialDataSource implements DataProcessor
 
     final protected String MC1_VEL = "MC1VEL";
     final protected String MC2_VEL = "MC2VEL";
+    final protected String MC1_TP1 = "MC1TP1";
 
     public String getName () {
         return "2010 Sunseeker Solar Car";
@@ -61,6 +62,12 @@ class TenCarDataSource extends AbstractSerialDataSource implements DataProcessor
             MC2_VEL,
             registerDataType("Motor Controller 2 Speed", "m/s"),
             registerDataType("Motor Controller 2 Rotations", "rpm")
+        );
+
+        registerDataMapping(
+            MC1_TP1,
+            registerDataType("Motor Controller 1 Heatsink Temp.", "C"),
+            registerDataType("Motor Controller 1 Motor Temp.", "C")
         );
     }
 

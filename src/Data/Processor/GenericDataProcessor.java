@@ -49,6 +49,6 @@ class GenericDataProcessor extends AbstractDataProcessor {
     }
 
     protected byte processByteAtOffset (long val, int offset) {
-        return (byte) (val >> offset & 0xFF);
+        return (byte) ((val >> offset) & 0xFF);
     }
 }

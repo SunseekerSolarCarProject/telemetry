@@ -32,6 +32,7 @@ class DataController {
          */
         registerDataSource(new PseudoRandomDataSource());
         registerDataSource(new TenCarDataSource());
+        registerDataSource(new SixteenCarDataSource());
 
         /*
          * Force the user to pick a data source
