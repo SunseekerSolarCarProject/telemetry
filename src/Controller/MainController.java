@@ -7,6 +7,9 @@
 
 package sunseeker.telemetry;
 
+
+
+import javax.swing.JMenuBar;
 import java.lang.Runnable;
 import java.lang.Thread;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainController implements Runnable, ActionListener{
+class MainController extends AbstractController implements Runnable, ActionListener{
     final public static int LINE_REFRESH_INTERVAL = 250;
 
     protected AbstractMainFrame mainFrame;
@@ -32,6 +35,10 @@ class MainController implements Runnable, ActionListener{
         mainFrame = frame;
 
         createLineUpdater();
+    }
+
+    public void useMenu (AbstractMenu menu) {
+        mainFrame.useMenu(menu);
     }
 
     public void setTypes (DataTypeCollectionInterface types) {
@@ -79,4 +86,5 @@ class MainController implements Runnable, ActionListener{
     protected void createLineUpdater () {
         dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
     }
+
 }
