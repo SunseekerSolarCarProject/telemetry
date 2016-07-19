@@ -20,7 +20,7 @@ public class FileSelect extends AbstractArchive {
 
 	protected int counter = 1;
 
-	FileSelect () {
+	public FileSelect () {
 		
 		/*
 		* only show txt and csv files

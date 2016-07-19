@@ -20,7 +20,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainController extends AbstractController implements Runnable, ActionListener{
+class MainController implements Runnable, ActionListener{
     final public static int LINE_REFRESH_INTERVAL = 250;
 
     protected AbstractMainFrame mainFrame;

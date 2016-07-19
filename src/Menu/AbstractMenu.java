@@ -13,7 +13,7 @@ import javax.swing.JMenuBar;
 
 abstract class AbstractMenu extends JMenuBar {
 
-	protected final int HEIGHT = 10;
-	protected final int WIDTH  = 1000;
+    protected final int HEIGHT = 10;
+    protected final int WIDTH  = 1000;
 
 }

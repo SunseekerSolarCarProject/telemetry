@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.Thread;
 
-class ArchiveController extends AbstractController {
+class ArchiveController {
     protected FileSelect select;
 
     protected ArchiveData archive;
@@ -39,11 +39,9 @@ class ArchiveController extends AbstractController {
          */
         try{            
             archive = new ArchiveData(select.chooseSaveFile());
-        }
-        catch(IOException e){
+        } catch(IOException e){
             System.out.println("Could not write to file" + e);
-        }
-        catch(Exception e){
+        } catch(Exception e){
             System.out.println("failure: " + e);
         }
           
@@ -52,11 +50,9 @@ class ArchiveController extends AbstractController {
     public void saveFile () {
         try{            
             archive.saveFile();
-        }
-        catch(IOException e){
+        } catch(IOException e){
             System.out.println("Could not write to file" + e);
-        }
-        catch(Exception e){
+        } catch(Exception e){
             System.out.println("failure: " + e);
         }
     }

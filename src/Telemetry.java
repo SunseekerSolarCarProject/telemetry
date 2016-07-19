@@ -17,10 +17,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.lang.Runnable;
 
-import java.lang.Exception;
-import java.io.IOException;
-
-class Telemetry implements Runnable, ActionListener, IActions {
+class Telemetry implements Runnable, ActionListener, ActionInterface {
 
     DataTypeInterface collection;
 
@@ -35,9 +32,9 @@ class Telemetry implements Runnable, ActionListener, IActions {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
-	public static void main (String[] args) {
+    public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
-	}
+    }
 
     public Telemetry () {
 

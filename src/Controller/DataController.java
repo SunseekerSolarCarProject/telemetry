@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.lang.Thread;
 import javax.swing.JOptionPane;
 
-class DataController extends AbstractController {
+class DataController {
     protected JFrame parent;
 
     protected HashMap<String, DataSourceInterface> dataSources;
