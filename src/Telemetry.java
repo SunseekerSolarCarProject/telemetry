@@ -17,7 +17,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.lang.Runnable;
 
-class Telemetry implements Runnable, ActionListener, ActionInterface {
+class Telemetry implements Runnable, ActionListener, IActions {
 
     DataTypeInterface collection;
 
@@ -153,6 +153,7 @@ class Telemetry implements Runnable, ActionListener, ActionInterface {
                 dataController.stop();
                 break;
         }
+
     }
 
 }

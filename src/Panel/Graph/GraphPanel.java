@@ -114,8 +114,10 @@ class GraphPanel extends AbstractGraphPanel {
         );
     }
 
+    /*
+    * Draw labels on y-axis
+    */
     protected void drawLabel (int label, int counter) {
-
         if((label % 20) == 0)
             artist.drawString(toString(label), 5, counter);
     }

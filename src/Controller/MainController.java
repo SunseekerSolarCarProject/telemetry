@@ -7,15 +7,16 @@
 
 package sunseeker.telemetry;
 
-
-
-import javax.swing.JMenuBar;
 import java.lang.Runnable;
 import java.lang.Thread;
+
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.JMenuBar;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

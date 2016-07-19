@@ -53,7 +53,6 @@ class CreateMenu extends AbstractMenu implements ActionInterface {
         session.add(endSess);
         add(session);
 
-
     }
 
     /*

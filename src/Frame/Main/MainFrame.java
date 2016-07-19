@@ -75,8 +75,6 @@ class MainFrame extends AbstractMainFrame {
          */
         contentPane = getContentPane();
 
-        
-
         configureLayeredPane();
     }
 
@@ -91,6 +89,9 @@ class MainFrame extends AbstractMainFrame {
     }
 
     public void useMenu (AbstractMenu menuBar) {
+        /*
+        * set menubar above contentPane
+        */
         this.setJMenuBar(menuBar);
     }
 
