@@ -77,13 +77,17 @@ public class FileSelect extends AbstractArchive {
                 */
                 fileName = (filePath + "(" + counter + ")");
 
-                //create file to search
+                /*
+                * Modify search path with new name
+                */
                 file = new File(fileName + ".txt");
 
                 this.counter++;
             }
 
-            //set file name to approved file
+            /*
+            * Set file name once approved
+            */
             this.setFile(fileName);
 
             return true;
@@ -102,7 +106,9 @@ public class FileSelect extends AbstractArchive {
     protected void setFile (String fileName) {
         File file = new File(fileName);
 
-        //only accepts type File
+        /*
+        * set approved file name
+        */
         this.setSelectedFile(file);
 
     }

@@ -17,7 +17,7 @@ import java.lang.Runnable;
 import java.lang.Exception;
 import java.io.IOException;
 
-class Telemetry implements Runnable {
+class Telemetry implements Runnable, IActions {
 
     DataTypeInterface collection;
 
@@ -31,9 +31,9 @@ class Telemetry implements Runnable {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
-	public static void main (String[] args) throws IOException {
+    public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
-	}
+    }
 
     public Telemetry () {
 
@@ -119,3 +119,4 @@ class Telemetry implements Runnable {
     }
 
 }
+
