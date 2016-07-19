@@ -60,12 +60,6 @@ class Telemetry implements Runnable {
         mainController = new MainController(mainFrame);
 
         /*
-        * Displays menu
-        */
-        AbstractMenu menu = new CreateMenu();
-        mainController.useMenu(menu);
-
-        /*
          * The graph to display the data
          */
         graphPanel = new GraphPanel();
