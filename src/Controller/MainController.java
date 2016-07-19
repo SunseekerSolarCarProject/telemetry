@@ -79,4 +79,5 @@ class MainController implements Runnable, ActionListener{
     protected void createLineUpdater () {
         dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
     }
+
 }

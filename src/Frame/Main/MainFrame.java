@@ -3,6 +3,9 @@
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 2, 2016
+ *
+ * @modified by Kai Gray <kai.a.gray@wmich.edu>
+ * @date July 10, 2016
  */
 
 package sunseeker.telemetry;
@@ -11,9 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
+
+import java.awt.event.WindowEvent;
+
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
+
+import java.io.IOException;
 
 class MainFrame extends AbstractMainFrame {
     protected SpringLayout layout;
@@ -65,6 +73,8 @@ class MainFrame extends AbstractMainFrame {
          * Just some other things...
          */
         contentPane = getContentPane();
+
+        
 
         configureLayeredPane();
     }
@@ -128,6 +138,7 @@ class MainFrame extends AbstractMainFrame {
     }
 
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
+        
         /*
          * Remove the existing panel
          */
@@ -231,5 +242,6 @@ class MainFrame extends AbstractMainFrame {
         );
 
         dataPanelsWidth += width;
-    }
+    } 
+
 }
