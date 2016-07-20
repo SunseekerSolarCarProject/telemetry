@@ -11,4 +11,5 @@ import javax.swing.JFileChooser;
 
 abstract class AbstractArchive extends JFileChooser {
 
+    final String DELIM = ",";
 }

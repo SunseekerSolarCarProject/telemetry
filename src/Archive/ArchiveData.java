@@ -9,11 +9,12 @@ package sunseeker.telemetry;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.OutputStreamWriter;
+//import java.io.OutputStreamWriter;
 
 import java.lang.Exception;
 import java.io.IOException;
+
+import java.util.List;
 
 public class ArchiveData extends AbstractArchive {
 
@@ -21,15 +22,18 @@ public class ArchiveData extends AbstractArchive {
 
     protected FileWriter write;
 
-    protected static int counter = 0;
-    protected static String line;
+    protected int counter = 0;
+    protected String line = "";
 
     final String HEAD    = "Counter,";
-    final String TIME    = "Time,";
-    final String SPEED   = "Speed,";
-    final String VOLTAGE = "Voltage,";
-    final String CURRENT = "Current,";
+    final String TIME    = "Time";
+    final String SPEED   = "Speed";
+    final String VOLTAGE = "Voltage";
+    final String CURRENT = "Current";
     final String ERRORS  = "Errors";
+    final String ERRNUL  = "Err. Null";
+    final String MIN     = "Min.";
+    final String MAX     = "Max.";
 
 
     ArchiveData (String fileName) throws IOException{
@@ -47,30 +51,48 @@ public class ArchiveData extends AbstractArchive {
             System.out.println("Probably your fault... " + e);
         }
 
-        this.startFile();
     }
 
     /*
     * add headers to file in csv format;
     */
-    protected void startFile () throws IOException {
-        write.append("" + HEAD  + TIME + VOLTAGE + CURRENT + SPEED + ERRORS);
-        write.append("\n");
+    protected void startFile (List<DataTypeInterface> data) {
+        
+        line += HEAD;
+
+        for(int i = 0; i < data.size(); i++) {
+            line += data.get(i).getName() + DELIM + MIN + DELIM + MAX + DELIM;
+        }
+        line += ERRORS;
+
+        writeData(line);
+        this.counter++;
     }
 
-    protected static String packageData (DataTypeInterface data) {
-        String line = "";
+    protected String packageData (List<DataTypeInterface> data) {
+        line = "";
 
         /*
-        * Test Data
+        * Write headers to file
         */
-        String speed = "10",volt = "100",amp = " 500";
+        if(counter == 0){
+            startFile(data);
+            counter++;
+        }
+            
+        /*
+        * Package data with "," as DELIM
+        */
+        line = counter + DELIM;
+        for(int i = 0; i < data.size(); i++) {
+            line += data.get(i).getCurrentValue() + DELIM;
+            line += data.get(i).getMinimumValue() + DELIM;
+            line += data.get(i).getMaximumValue() + DELIM;
+        }
+
+        line += ERRNUL;
 
         
-        /*
-        * packs data in order of headers
-        */
-        line = (counter + ", " + counter + ", " + volt + ", " + amp + ", " + "00" + "\n");
         counter++;
 
         return line;
@@ -79,10 +101,10 @@ public class ArchiveData extends AbstractArchive {
     /*
     * add a line of text to file
     */
-    protected void writeData (String line) throws IOException { 
+    protected void writeData (String line) { 
 
         try{
-            write.append(line);
+            write.append(line + "\n");
 
         } catch (IOException e){
             System.err.println("IOException");

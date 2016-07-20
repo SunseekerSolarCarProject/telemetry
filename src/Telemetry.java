@@ -17,7 +17,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.lang.Runnable;
 
-class Telemetry implements Runnable, ActionListener, IActions {
+class Telemetry implements Runnable, ActionListener, ActionInterface {
 
     DataTypeInterface collection;
 
@@ -92,9 +92,9 @@ class Telemetry implements Runnable, ActionListener, IActions {
         makeAwareOfTypes();
 
         /*
-        * create controller to store data
+        * Create controller to store data
         */
-        archiveController = new ArchiveController();
+        archiveController = new ArchiveController(dataTypes);
 
         /*
          * Start the application
@@ -126,7 +126,7 @@ class Telemetry implements Runnable, ActionListener, IActions {
     }
 
     /*
-    * performs actions
+    * Performs actions
     */
     public void actionPerformed (ActionEvent e) {
 
