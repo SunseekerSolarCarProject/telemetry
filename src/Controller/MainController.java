@@ -9,10 +9,14 @@ package sunseeker.telemetry;
 
 import java.lang.Runnable;
 import java.lang.Thread;
+
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.JMenuBar;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,6 +36,10 @@ class MainController implements Runnable, ActionListener{
         mainFrame = frame;
 
         createLineUpdater();
+    }
+
+    public void useMenu (AbstractMenu menu) {
+        mainFrame.useMenu(menu);
     }
 
     public void setTypes (DataTypeCollectionInterface types) {
@@ -79,4 +87,5 @@ class MainController implements Runnable, ActionListener{
     protected void createLineUpdater () {
         dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
     }
+
 }

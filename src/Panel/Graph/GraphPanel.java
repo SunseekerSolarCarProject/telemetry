@@ -10,6 +10,7 @@ package sunseeker.telemetry;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Font;
 import java.awt.BasicStroke;
 import java.awt.Dimension;
 
@@ -18,11 +19,14 @@ class GraphPanel extends AbstractGraphPanel {
 
     protected Graphics2D artist;
 
+    protected int label = 25;
+
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
 
         artist = (Graphics2D) g;
 
+        artist.setFont(new Font("Monospaced", Font.PLAIN, 8));
         /*
          * These give us our scale
          */
@@ -81,14 +85,26 @@ class GraphPanel extends AbstractGraphPanel {
                 drawYScaleHash(posOffset);
 
                 posOffset -= Y_AXIS_SCALE;
+
+                drawLabel(label + 25,
+                    posOffset
+                );
             }
 
             if (negOffset < PANEL_HEIGHT) {
                 drawYScaleHash(negOffset);
 
                 negOffset += Y_AXIS_SCALE;
+
+                drawLabel(-1 * label,
+                    negOffset
+                );
             }
+
+            label += 25;
+            
         }
+        label = 25;
     }
 
     protected void drawYScaleHash (int offset) {
@@ -96,5 +112,20 @@ class GraphPanel extends AbstractGraphPanel {
             Y_AXIS_INSET - SCALE_HASH_SIZE, offset,
             Y_AXIS_INSET + SCALE_HASH_SIZE, offset
         );
+    }
+
+    /*
+    * Draw labels on y-axis
+    */
+    protected void drawLabel (int label, int counter) {
+        if((label % 20) == 0)
+            artist.drawString(toString(label), 5, counter);
+    }
+
+    public static String toString (int label) {
+        if(label < 0)
+            return label + " ";
+
+        return " " + label + " ";
     }
 }
