@@ -3,21 +3,28 @@
 *
 * @author Alec Carpenter <alecgunnar@gmail.com>
 * @date July 2, 2016
+*
+* @Modified Kai Gray <kai.a.gray@wmich.edu>
+* @date July 20, 2016
 */
 
 package sunseeker.telemetry;
 
 import java.lang.Runnable;
 import java.lang.Thread;
+
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.JMenuBar;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainController implements Runnable, ActionListener{
+class MainController implements Runnable, ActionListener, ActionInterface{
     final public static int LINE_REFRESH_INTERVAL = 250;
 
     protected AbstractMainFrame mainFrame;
@@ -28,10 +35,17 @@ class MainController implements Runnable, ActionListener{
 
     protected Timer dataUpdater;
 
+    protected ActionListener altListener;
+    protected int counter = 0;
+
     public MainController (AbstractMainFrame frame) {
         mainFrame = frame;
 
         createLineUpdater();
+    }
+
+    public void useMenu (AbstractMenu menu) {
+        mainFrame.useMenu(menu);
     }
 
     public void setTypes (DataTypeCollectionInterface types) {
@@ -74,9 +88,18 @@ class MainController implements Runnable, ActionListener{
     public void actionPerformed (ActionEvent evt) {
         graphPanel.repaint();
         liveDataPanel.refresh();
+        counter++;
+        if(counter % 25 == 0)
+            altListener.actionPerformed(new ActionEvent(UPDATE, ActionEvent.ACTION_LAST, UPDATE));
+
     }
 
     protected void createLineUpdater () {
         dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
     }
+
+    protected void useAltListener (ActionListener altListen) {
+        this.altListener = altListen;
+    }
+
 }
