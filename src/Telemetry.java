@@ -95,6 +95,7 @@ class Telemetry implements Runnable, ActionListener, ActionInterface {
         * Create controller to store data
         */
         archiveController = new ArchiveController(dataTypes);
+        mainController.useAltListener(this);
 
         /*
          * Start the application
@@ -135,7 +136,7 @@ class Telemetry implements Runnable, ActionListener, ActionInterface {
                 dataController.promptForDataSource();
                 break;
             case ACTION_FILE_SELECT:
-                archiveController.promptForSaveFile();
+                archiveController.start();
                 break;
             case ACTION_FILE_CLOSE:
                 archiveController.stop();
@@ -151,6 +152,10 @@ class Telemetry implements Runnable, ActionListener, ActionInterface {
                 break;
             case ACTION_DATA_END:
                 dataController.stop();
+                break;
+            default:
+                if(archiveController.getWriting())
+                    archiveController.refresh();
                 break;
         }
 

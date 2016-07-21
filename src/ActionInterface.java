@@ -24,4 +24,6 @@ interface ActionInterface {
     final String ACTION_DATA_START   = "Start Session";
     final String ACTION_DATA_END     = "End Session";
     final String ACTION_DATA_RESTART = "Restart Data";
+
+    final String UPDATE = "Update";
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class ArchiveController {
+class ArchiveController extends AbstractArchive {
     protected DataTypeCollectionInterface types;
     
     protected FileSelect select;
@@ -20,6 +20,8 @@ class ArchiveController {
     protected ArchiveData archive;
 
     protected OpenData open;
+
+    protected boolean writing = false;
 
     ArchiveController (DataTypeCollectionInterface dataTypes) {
         select = new FileSelect();
@@ -31,17 +33,21 @@ class ArchiveController {
         if(archive == null)
             promptForSaveFile();
 
+        archive.writeData(archive.packageData(types));
 
-        archive.packageData(this.types);
+        setWriting(true);
+    }
 
-    }  
+    public void refresh () {
+        try{
+            archive.writeData(archive.packageData(types));
+        } catch (Exception e) {}
+    }
 
     public void stop () {
-        try {
-            archive.closeAll();
-        } catch (IOException e) {
-            System.out.println("could not close file...");
-        }
+        archive.closeAll();
+        
+        setWriting(false);
     }
 
     public void promptForSaveFile () {
@@ -59,14 +65,8 @@ class ArchiveController {
           
     }
 
-    public void saveFile () {
-        try{            
-            archive.saveFile();
-        } catch (IOException e) {
-            System.out.println("Could not write to file" + e);
-        } catch (Exception e) {
-            System.out.println("failure: " + e);
-        }
+    public void saveFile () {          
+        archive.saveFile();
     }
 
 
@@ -74,5 +74,11 @@ class ArchiveController {
         this.types = types;
     }
 
-    
+    protected void setWriting (boolean b) {
+        this.writing = b;
+    }
+
+    public boolean getWriting () {
+        return this.writing;
+    }
 }

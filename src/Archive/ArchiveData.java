@@ -31,16 +31,16 @@ public class ArchiveData extends AbstractArchive {
     final String VOLTAGE = "Voltage";
     final String CURRENT = "Current";
     final String ERRORS  = "Errors";
-    final String ERRNUL  = "Err. Null";
-    final String MIN     = "Min.";
-    final String MAX     = "Max.";
+    final String ERRNUL  = "NULL";
+    final String MIN     = "Min";
+    final String MAX     = "Max";
 
 
     ArchiveData (String fileName) throws IOException{
 
         /*
         * create text file with fileName from FileSelect class
-        */      
+        */
         file = new File(fileName + ".txt");
         
         try{
@@ -54,52 +54,56 @@ public class ArchiveData extends AbstractArchive {
     }
 
     /*
-    * add headers to file in csv format;
+    * Write headers to txt file in csv format;
     */
-    protected void startFile (List<DataTypeInterface> data) {
+    protected void startFile (DataTypeCollectionInterface types) {
         
         line += HEAD;
 
-        for(int i = 0; i < data.size(); i++) {
-            line += data.get(i).getName() + DELIM + MIN + DELIM + MAX + DELIM;
+        if (types == null)
+            return;
+
+        /* 
+        * Grabs available headers, adds max/min, write to file
+        */
+        for(int i = 0; i < types.size(); i++) {
+            line += types.get(i).getName() + DELIM + MIN + DELIM + MAX + DELIM;
         }
+        
         line += ERRORS;
 
         writeData(line);
         this.counter++;
+        System.out.println(line);
     }
 
-    protected String packageData (List<DataTypeInterface> data) {
+    protected String packageData (DataTypeCollectionInterface types) {
         line = "";
 
         /*
         * Write headers to file
         */
-        if(counter == 0){
-            startFile(data);
-            counter++;
-        }
+        if(counter == 0)
+            startFile(types);
             
         /*
-        * Package data with "," as DELIM
+        * Package data with "," as Delimiter
         */
         line = counter + DELIM;
-        for(int i = 0; i < data.size(); i++) {
-            line += data.get(i).getCurrentValue() + DELIM;
-            line += data.get(i).getMinimumValue() + DELIM;
-            line += data.get(i).getMaximumValue() + DELIM;
+        for(int i = 0; i < types.size(); i++) {
+            line += types.get(i).getCurrentValue() + DELIM;
+            line += types.get(i).getMinimumValue() + DELIM;
+            line += types.get(i).getMaximumValue() + DELIM;
         }
-
         line += ERRNUL;
 
         
-        counter++;
-
+        this.counter++;
         return line;
     }
 
     /*
-    * add a line of text to file
+    * Write a line of text to file
     */
     protected void writeData (String line) { 
 
@@ -115,9 +119,9 @@ public class ArchiveData extends AbstractArchive {
     }
 
     /*
-    * properly close file(s)
+    * Properly close file(s)
     */
-    public void closeAll () throws IOException {
+    public void closeAll () {
         try{
             write.close();
             System.out.println("File closed.");
@@ -128,13 +132,16 @@ public class ArchiveData extends AbstractArchive {
         }
     }
 
-    public void saveFile () throws IOException {
+    /*
+    * Close and reopen as appendable
+    */
+    public void saveFile () {
 
         this.closeAll();
         
         try{
             write = new FileWriter (this.file, true);
-            System.out.println("File Saved.");
+            System.out.println("File Reopened.");
         } catch (IOException e) {
             System.out.println("Failed to properly reopen file.");
         } catch (Exception e) {
