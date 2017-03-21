@@ -12,13 +12,15 @@ This repository contains the source for the Sunseeker Solar Car Project's main t
 
 Once you have cloned the repository onto your machine, you will want to do the following to get the telemetry up and running.
 
-First, install all of the dependencies:
+
+For Java
 
 ```sh
 $ sudo apt install java-default
 ```
 
-for Apache Ant
+
+For Apache Ant
 
 1 Download apache-ant-1.10.1-bin.zip from https://ant.apache.org/bindownload.cgi
 
@@ -34,7 +36,8 @@ add new line ANT_HOME= apache-ant-1.10.1 location ie "/home/USERNAME/Documents/a
 
 add new line JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
 
-For rxtx
+
+For RXTX
 
 1 Download 	rxtx-2.2pre2-bins.zip from http://rxtx.qbang.org/wiki/index.php/Download
 
@@ -44,7 +47,8 @@ For rxtx
 
 4 Put RXTXcomm.jar in /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext
 
-Second, run telemetry:
+
+##Running Telemetry
 
 ```sh
 $ ant compile jar run
