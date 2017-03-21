@@ -48,7 +48,7 @@ For RXTX
 4 Put RXTXcomm.jar in /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext
 
 
-##Running Telemetry
+## Running Telemetry
 
 ```sh
 $ ant compile jar run
