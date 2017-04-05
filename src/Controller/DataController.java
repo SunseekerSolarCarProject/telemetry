@@ -31,22 +31,21 @@ class DataController {
         registerDataSource(new SixteenCarDataSource());
     }
 
-    public void start (DataSourceInterface source) {
+    public boolean start (DataSourceInterface source) {
         /*
          * Cannot start if a source is already started
          */
         if (dataSource != null)
-            return;
-
-        this.dataSource = source;
+            return false;
 
         /*
          * If the data source requires a seial connection,
          * lets get it one
          */
-        if (dataSource instanceof AbstractSerialDataSource)
-            while (((AbstractSerialDataSource) dataSource).getPort() == null)
-                promptForSerialPort();
+        if (source instanceof AbstractSerialDataSource && !promptForSerialPort(source))
+            return false;
+
+        dataSource = source;
 
         /*
          * Start loading the data
@@ -54,6 +53,8 @@ class DataController {
         dataThread = new Thread(dataSource, "DataSourceThread");
 
         dataThread.start();
+
+        return true;
     }
 
     public void stop () {
@@ -88,7 +89,7 @@ class DataController {
         dataSources.put(source.getName(), source);
     }
 
-    protected void promptForSerialPort () {
+    protected boolean promptForSerialPort (DataSourceInterface source) {
         SerialHelper helper = new SerialHelper();
 
         String port = (String) JOptionPane.showInputDialog(
@@ -101,6 +102,8 @@ class DataController {
             null
         );
 
-        ((AbstractSerialDataSource) dataSource).setPort(helper.getIdentifier(port));
+        ((AbstractSerialDataSource) source).setPort(helper.getIdentifier(port));
+
+        return port != null;
     }
 }

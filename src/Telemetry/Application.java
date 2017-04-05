@@ -10,32 +10,45 @@ package sunseeker.telemetry;
 import java.lang.Runnable;
 
 class Application implements Runnable {
+    DataController dataController;
+
+    MainController mainController;
+
+    InitialProfileLoader profileLoader;
+
     public void run () {
         /*
          * Create the data controller
          */
-        DataController dataController = new DataController();
+        dataController = new DataController();
 
         /*
          * Create the main controller
          */
-        MainController mainController = new MainController();
+        mainController = new MainController();
 
         /*
          * Allow the user to select their profile
          */
-        InitialProfileLoader profileLoader = new InitialProfileLoader(dataController.getDataSources());
+        profileLoader = new InitialProfileLoader(dataController.getDataSources());
+        loadProfile();
+    }
 
+    protected void loadProfile () {
         profileLoader.loadProfile(new ProfileLoaderObserverInterface() {
             public void receiveProfile (ProfileInterface profile) {
                 if (profile instanceof ProfileInterface) {
+                    if (!dataController.start(profile.getDataSource())) {
+                        loadProfile();
+                        return;
+                    }
+
+                    mainController.start(profile);
+
                     /*
                      * This will allow us to respond to the user shutting the app down
                      */
                     Runtime.getRuntime().addShutdownHook(new ShutdownController(profile));
-
-                    dataController.start(profile.getDataSource());
-                    mainController.start(profile);
                 } else {
                     System.exit(1);
                 }

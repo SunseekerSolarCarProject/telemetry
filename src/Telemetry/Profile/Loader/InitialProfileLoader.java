@@ -12,16 +12,18 @@ import java.io.File;
 public class InitialProfileLoader extends FileProfileLoader implements ProfileLoaderGUIObserverInterface {
     protected ProfileLoaderObserverInterface observer;
 
+    protected ProfileLoaderGUI profileLoaderGui;
+
     public InitialProfileLoader (DataSourceCollectionInterface dataSources) {
         super(dataSources);
+
+        profileLoaderGui = new ProfileLoaderGUI(dataSources, this);
     }
 
     public void loadProfile (ProfileLoaderObserverInterface observer) {
-        ProfileLoaderGUI profileLoaderGui = new ProfileLoaderGUI(dataSources);
-
         this.observer = observer;
 
-        profileLoaderGui.prompt(this);
+        profileLoaderGui.prompt();
     }
 
     public void loadSaved (File file) {

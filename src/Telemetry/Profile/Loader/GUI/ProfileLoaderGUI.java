@@ -100,7 +100,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
     protected JPanel optionsPanel;
     protected JButton loadProfile;
 
-    public ProfileLoaderGUI (DataSourceCollectionInterface dataSources) {
+    public ProfileLoaderGUI (DataSourceCollectionInterface dataSources, ProfileLoaderGUIObserverInterface observer) {
         /*
          * Set the title of the frame
          */
@@ -145,19 +145,17 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
          * Add the options to create a profile
          */
         addOptionsToContinueOrQuit();
+
+        this.observer = observer;
     }
 
-    public void prompt (ProfileLoaderGUIObserverInterface observer) {
-        this.observer = observer;
-
+    public void prompt () {
         setVisible(true);
     }
 
     public void actionPerformed (ActionEvent e) {
         String choice     = (String) loadOrCreate.getSelectedItem();
         CardLayout layout = (CardLayout) optionsPanel.getLayout();
-
-        System.out.println(choice);
 
         layout.show(optionsPanel, choice);
     }
@@ -256,6 +254,8 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String error = null;
 
+                setVisible(false);
+
                 switch ((String) loadOrCreate.getSelectedItem()) {
                     case CHOICE_LOAD:
                         if (loadProfileFrom != null) {
@@ -274,13 +274,13 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
                         break;
                 }
 
-                if (error == null) {
-                    setVisible(false);
-                } else {
+                if (error != null) {
                     JOptionPane.showMessageDialog(ProfileLoaderGUI.this,
                         error,
                         ERROR_TITLE,
                         JOptionPane.WARNING_MESSAGE);
+
+                    prompt();
                 }
             }
         });
